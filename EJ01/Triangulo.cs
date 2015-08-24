@@ -8,46 +8,40 @@ namespace EJ01
 {
 	class Triangulo
 	{
-		private Punto iPunto1;
-		private Punto iPunto2;
-		private Punto iPunto3;
+
+		public Punto Punto1 { get; private set; }
+		public Punto Punto2 { get; private set; }
+		public Punto Punto3 { get; private set; }
+		public double Area
+		{
+			get { return CalcularArea(); }
+		}
+		public double Perimetro
+		{
+			get { return CalcularPerimetro(); }
+		}
 
 		public Triangulo (Punto pPunto1, Punto pPunto2, Punto pPunto3)
 		{
-			this.iPunto1 = pPunto1;
-			this.iPunto2 = pPunto2;
-			this.iPunto3 = pPunto3;
+			Punto1 = pPunto1;
+			Punto2 = pPunto2;
+			Punto3 = pPunto3;
 		}
 
-		public Punto Punto1
+
+		private double CalcularArea()
 		{
-			get { return this.iPunto1; }
-		}
-		public Punto Punto2
-		{
-			get { return this.iPunto2; }
-		}
-		public Punto Punto3
-		{
-			get { return this.iPunto3; }
+			double lado1 = Punto1.CalcularDistanciaDesde(Punto2);
+			double lado2 = Punto2.CalcularDistanciaDesde(Punto3);
+			double lado3 = Punto3.CalcularDistanciaDesde(Punto1);
+			double perimetro = Perimetro;
+
+			return (Math.Sqrt(perimetro * (perimetro - lado1) * (perimetro - lado2) * (perimetro - lado3)));
 		}
 
-		public double Area
+		private double CalcularPerimetro ()
 		{
-			get
-			{
-				double lado1 = Punto1.CalcularDistanciaDesde(Punto2);
-				double lado2 = Punto2.CalcularDistanciaDesde(Punto3);
-				double lado3 = Punto3.CalcularDistanciaDesde(Punto1);
-				double perimetro = Perimetro;
-
-				return (Math.Sqrt(perimetro * (perimetro - lado1) * (perimetro - lado2) * (perimetro - lado3)));
-			}
-		}
-
-		public double Perimetro
-		{
-			get { return Punto1.CalcularDistanciaDesde(Punto2) + Punto2.CalcularDistanciaDesde(Punto3) + Punto3.CalcularDistanciaDesde(Punto1); }
+			return Punto1.CalcularDistanciaDesde(Punto2) + Punto2.CalcularDistanciaDesde(Punto3) + Punto3.CalcularDistanciaDesde(Punto1);
 		}
 	}
 }
