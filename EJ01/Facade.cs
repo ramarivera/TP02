@@ -8,6 +8,5 @@ namespace EJ01
 {
 	class Facade
 	{
-        int hola;
 	}
 }
