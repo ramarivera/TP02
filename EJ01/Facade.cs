@@ -8,5 +8,7 @@ namespace EJ01
 {
 	class Facade
 	{
+        void probando() { }
+        void probando2() { }
 	}
 }
