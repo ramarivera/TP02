@@ -8,14 +8,33 @@ namespace EJ01
 {
 	class Triangulo
 	{
+		private Punto iPunto1;
+		private Punto iPunto2;
+        private Punto iPunto3;
 
-		public Punto Punto1 { get; private set; }
-		public Punto Punto2 { get; private set; }
-		public Punto Punto3 { get; private set; }
+        public Punto Punto1
+        {
+            get { return this.iPunto1; }
+            private set { this.iPunto1 = value; }
+        }
+
+        public Punto Punto2
+        {
+            get { return this.iPunto2; }
+            private set { this.iPunto2 = value; }
+        }
+
+        public Punto Punto3
+        {
+            get { return this.iPunto3; }
+            private set { this.iPunto3 = value; }
+        }
+
 		public double Area
 		{
 			get { return CalcularArea(); }
 		}
+
 		public double Perimetro
 		{
 			get { return CalcularPerimetro(); }
@@ -23,9 +42,9 @@ namespace EJ01
 
 		public Triangulo (Punto pPunto1, Punto pPunto2, Punto pPunto3)
 		{
-			Punto1 = pPunto1;
-			Punto2 = pPunto2;
-			Punto3 = pPunto3;
+			iPunto1 = pPunto1;
+			iPunto2 = pPunto2;
+			iPunto3 = pPunto3;
 		}
 
 

@@ -20,11 +20,13 @@ namespace EJ01
 		public double X
 		{
 			get { return this.iX; }
+            private set { this.iX = value; }
 		}
 
 		public double Y
 		{
 			get { return this.iY; }
+            private set { this.iY = value; }
 		}
 
 		public double CalcularDistanciaDesde (Punto pPunto)

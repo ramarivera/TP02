@@ -15,10 +15,12 @@ namespace EJ01
 		public Punto Centro
 		{
 			get { return this.iCentro; }
+            private set { this.iCentro = value; }
 		}
 		public double Radio
 		{
 			get { return this.iRadio; }
+            private set { this.iRadio = value; }
 		}
 
 		public Circulo(Punto pCentro, double pRadio) : this(pCentro.X, pCentro.Y, pRadio) { }
