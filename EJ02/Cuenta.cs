@@ -11,6 +11,41 @@ namespace EJ02
         private Moneda iMoneda;
         private double iSaldo;
 
-        public Cuenta(double pSaldoInicial) { }
+		public double Saldo
+		{
+			get { return this.iSaldo; }
+			private set { this.iSaldo = value; }
+		}
+
+		public Moneda Moneda
+		{
+			get { return this.iMoneda; }
+			private set { this.iMoneda = value; }
+		}
+		
+        public Cuenta(double pSaldoInicial, Moneda pMoneda)
+		{
+			Saldo = pSaldoInicial;
+			Moneda = pMoneda;
+		}
+		public Cuenta(Moneda pMoneda) : this(0, pMoneda) { }
+
+		public void AcreditarSaldo (double pSaldo )
+		{
+			Saldo += pSaldo;
+		}
+
+		public bool DebitarSaldo (double pSaldo )
+		{
+			if (Saldo < pSaldo)
+			{
+				return false;
+			}
+			else
+			{
+				Saldo -= pSaldo;
+				return true;
+			}
+		}
     }
 }

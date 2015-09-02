@@ -25,8 +25,10 @@ namespace EJ02
 
 		public Cuentas()
 		{
-			CuentaEnDolares = new Cuenta();
-			CuentaEnPesos = new Cuenta(); 
+			Moneda dolar = new Moneda("USD", "Dolar", "U$S");
+			Moneda peso = new Moneda("ARS", "Peso Argentino", "$");
+			CuentaEnDolares = new Cuenta(dolar);
+			CuentaEnPesos = new Cuenta(peso);
 		}
 	}
 }
