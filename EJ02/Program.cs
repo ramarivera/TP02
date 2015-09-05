@@ -6,16 +6,38 @@ using System.Threading.Tasks;
 
 namespace EJ02
 {
-    class Program
+	/// <summary>
+	/// Clase Solucion del Ejercicio 02 del Trabajo Practico 02
+	/// </summary>
+	class Program
     {
 
+		/// <summary>
+		/// Miembro estatico Facade, utilizado para abstraer implementaciones de las clases particulares al ejercicio
+		/// </summary>
 		static Facade cFachada;
-	
-		static void GoodBye ()
+		/// <summary>
+		/// Muestra la Pantalla de Despedida del programa
+		/// </summary>
+		static void GoodBye()
 		{
 			Console.Clear();
 			Console.WriteLine("\n\n\n\n\n\n\n\n\n\n                    Thank you for trusting MARR Systems Inc.  ");
 			Console.ReadKey();
+		}
+		/// <summary>
+		/// Muestra una cadena de caracteres, utilizado como separador en los menues principales por consola
+		/// </summary>
+		static void SeparadorMenuPrincipal()
+		{
+			Console.WriteLine("\n************************** Menu Principal *************************\n");
+		}
+		/// <summary>
+		/// Muestra una cadena de caracteres, utilizado como separador en los menues secundarios por consola
+		/// </summary>
+		static void SeparadorOperatoria()
+		{
+			Console.WriteLine("\n-------------------Operando------------------\n");
 		}
 		static void Operatoria (Cuenta pCuenta)
 		{
@@ -62,17 +84,6 @@ namespace EJ02
 			}
 		}
 		
-		static void SeparadorMenuPrincipal ()
-		{
-			Console.WriteLine("\n************************** Menu Principal *************************\n");
-		}
-
-		static void SeparadorOperatoria ()
-		{
-			Console.WriteLine("\n-------------------Operando------------------\n");
-		}
-
-
 		static void Main(string[] args)
 		{
 			
