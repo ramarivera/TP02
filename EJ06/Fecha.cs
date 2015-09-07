@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,29 +15,29 @@ namespace EJ06
 		/// <summary>
 		/// 
 		/// </summary>
-		private int iDia;
+		private int readonly iDia;
 		/// <summary>
 		/// 
 		/// </summary>
-		private int iMes;
+		private int readonly iMes;
 		/// <summary>
 		/// 
 		/// </summary>
-		private int iAnio;
+		private int readonly iAnio;
 		#endregion
 		#region Fecha - Constantes
 		/// <summary>
 		/// 
 		/// </summary>
-		private static readonly string[] NOMBRES_DIAS = { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" };
-		private static readonly string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+		private const  string[] NOMBRES_DIAS = { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" };
+		private const string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
 		/// <summary>
 		/// 
 		/// </summary>
-		private static readonly int[] DIAS_MESES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		private const int[] DIAS_MESES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 		private static readonly int[] COEFICIENTES_MESES = { 6, 2, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
-		private static readonly int ANIO_MINIMO = 1900;
-		private static readonly int ANIO_MAXIMO = 2199;
+		private const int ANIO_MINIMO = 1900;
+		private const int ANIO_MAXIMO = 2199;
 		#endregion
 		#region Fecha - Constructores
 		/// <summary>
