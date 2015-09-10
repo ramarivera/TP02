@@ -13,31 +13,43 @@ namespace EJ06
 	{
 		#region Fecha - Atributos 
 		/// <summary>
-		/// 
+		/// Representa el numero del dia de una fecha, sus valores permitidos estan entre 1 y 31, dependiendo del mes.
 		/// </summary>
-		private int readonly iDia;
+		private readonly int iDia;
 		/// <summary>
-		/// 
+		/// Representa el numero del mes de una fecha, sus valores permitidos estan entre 1 y 12.
 		/// </summary>
-		private int readonly iMes;
+		private readonly int  iMes;
 		/// <summary>
-		/// 
+		/// Representa el numero del año de una fecha, sus valores van desde 1700 hasta 2299
 		/// </summary>
-		private int readonly iAnio;
+		private readonly int  iAnio;
 		#endregion
 		#region Fecha - Constantes
 		/// <summary>
-		/// 
+		/// Array utilizado para persistir el nombre de los dias de la semana. Esta forma de guardarlos permitiria realizar una localizacion regional de  la clase mas facilmente
 		/// </summary>
-		private const  string[] NOMBRES_DIAS = { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" };
-		private const string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+		private static readonly string[] NOMBRES_DIAS = { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" };
 		/// <summary>
-		/// 
+		/// Array utilizado para persistir el nombre de los Meses del Año. Esta forma de guardarlos permitiria realizar una localizacion regional de  la clase mas facilmente
 		/// </summary>
-		private const int[] DIAS_MESES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		private static readonly string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+		/// <summary>
+		/// Almacena los dias de cada mes, para el caso de años no bisiestos
+		/// </summary>
+		private static readonly int[] DIAS_MESES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		/// <summary>
+		/// Almacena coeficientes para cada mes, utilizado para el calculo del nombre del dia de la semana para una fecha
+		/// </summary>
 		private static readonly int[] COEFICIENTES_MESES = { 6, 2, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
-		private const int ANIO_MINIMO = 1900;
-		private const int ANIO_MAXIMO = 2199;
+		/// <summary>
+		/// Numero Minimo permitido de año. Entonces la minima fecha instanciable es 01/01/1990
+		/// </summary>
+		private const int ANIO_MINIMO = 1700;
+		/// <summary>
+		/// Numero maximo permitido de año. Entonces la maxima fecha instanciable es 31/12/2199
+		/// </summary>
+		private const int ANIO_MAXIMO = 2299;
 		#endregion
 		#region Fecha - Constructores
 		/// <summary>
@@ -75,33 +87,35 @@ namespace EJ06
 			this.iAnio = pAnio;
 
 		}
-
+		/// <summary>
+		/// Constructor por defecto de la clase, devolviendo el 01/01/1700
+		/// </summary>
 		public Fecha() : this(1, 1, ANIO_MINIMO) { }
 		#endregion
 		#region Fecha - Propiedades
 		/// <summary>
-		/// 
+		/// Propiedad Dia, solo lectura
 		/// </summary>
 		public int Dia
 		{
 			get { return this.iDia; }
 		}
 		/// <summary>
-		/// 
+		/// Propiedad Mes, solo lectura
 		/// </summary>
 		public int Mes
 		{
 			get { return this.iMes; }
 		}
 		/// <summary>
-		/// 
+		/// Propiedad Año, solo lectura
 		/// </summary>
 		public int Anio
 		{
 			get	{ return this.iAnio; }
 		}
 		/// <summary>
-		/// 
+		/// Propiedad Bisiesto, nos permite saber si el año de la instancia es bisiesto
 		/// </summary>
 		/// <returns></returns>
 		public bool Bisiesto
@@ -109,21 +123,21 @@ namespace EJ06
 			get { return Fecha.EsBisiesto(Anio); }
 		}
 		/// <summary>
-		/// 
+		/// Propiedad DiasMesAnioActual, Nos permite conocer el numero de dias que posee el mes y el año de la instancia 
 		/// </summary>
 		public int DiasMesAnioActual
 		{
 			get { return DiasDelMesAnio(Mes, Anio); }
 		}
 		/// <summary>
-		/// 
+		/// Propiedad DiaSemanaActual, Nos permite conocer el nombre del dia de la semana de la instancia
 		/// </summary>
 		public String DiaSemanaActual
 		{
 			get { return Fecha.DiaSemanaFecha(Dia, Mes, Anio); }
 		}
 		/// <summary>
-		/// 
+		/// Pripiedad NombreMesActual, nos permite conocer el nombre del mes de la instancia
 		/// </summary>
 		public String NombreMesActual
 		{
@@ -132,44 +146,65 @@ namespace EJ06
 		#endregion
 		#region Fecha - Metodos Estaticos 
 		/// <summary>
-		/// 
+		/// Permite determinar si un año es bisiesto
 		/// </summary>
-		/// <param name="pAnio"></param>
-		/// <returns></returns>
+		/// <param name="pAnio">Año para el cual se desea conocer si es bisiesto</param>
+		/// <returns>Verdadero si es bisiesto, falso si no</returns>
 		public static bool EsBisiesto(int pAnio)
 		{
+			/*	Si pAnio es divisible por 4 y no es divisible por 100 
+				O          Es divisible por 400, entonces es bisiesto */
 			return (pAnio % 4 == 0 && pAnio % 100 != 0 || pAnio % 400 == 0);
 		}
 		/// <summary>
-		/// 
+		/// Permite determinar la cantidad de dias que tiene un mes en un año determinado
 		/// </summary>
-		/// <param name="pMes"></param>
-		/// <param name="pAnio"></param>
-		/// <returns></returns>
+		/// <param name="pMes">Mes para el cual se desean conocer los dias maximos</param>
+		/// <param name="pAnio">Año, para considerar los años bisiestos</param>
+		/// <returns>Cantidad de dias del mes y año</returns>
 		public static int DiasDelMesAnio (int pMes, int pAnio)
 		{
+			// Si el mes es febrero(2) y el Año es bisiesto, los dias son 29; si no se consulta en el array de constantes 
 			return (pMes == 2 && Fecha.EsBisiesto(pAnio)) ? 29 : DIAS_MESES[pMes - 1]; 
         }
 		/// <summary>
-		/// 
+		/// Determina el nombre del dia de la semana de una fecha
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="pDia">Numero de Dia</param>
+		/// <param name="pMes">Numero de Mes</param>
+		/// <param name="pAnio">Numero de Año</param>
+		/// <returns>Nombre del dia de la semana para los valores dia/mes/año</returns>
 		public static String DiaSemanaFecha(int pDia, int pMes, int pAnio)
 		{
 			int resultado = 0;
 
-			//
-			if (pAnio >= 1900 && pAnio < 2000)
+			// http://gaussianos.com/como-calcular-que-dia-de-la-semana-fue/
+
+			if (1700 <= pAnio && pAnio <= 1799)
 			{
-				resultado++;
+				resultado = 5;
 			}
-			else
+			else if (1800 <= pAnio && pAnio <= 1899)
 			{
-				if (pAnio >= 2100 && pAnio < 2200)
-				{
-					resultado -= 2;
-				}
+				resultado = 3;
 			}
+			else if (1900 <= pAnio && pAnio <= 1999)
+			{
+				resultado = 1;
+			}
+			else if (2000 <= pAnio && pAnio <= 2099)
+			{
+				resultado = 0;
+			}
+			else if (2100 <= pAnio && pAnio <= 2199)
+			{
+				resultado = -2;
+			}
+			else if (2200 <= pAnio && pAnio <= 2299)
+			{
+				resultado = -4;
+			}
+
 
 			//
 			resultado += ((pAnio % 100) + (pAnio % 100) / 4);
@@ -187,10 +222,10 @@ namespace EJ06
 			return NOMBRES_DIAS[resultado % 7];
 		}
 		/// <summary>
-		/// 
+		/// Devuelve el nombre del mes para el numero correspondiente
 		/// </summary>
 		/// <param name="pMes"></param>
-		/// <returns></returns>
+		/// <returns>Nombre del Mes</returns>
 		public static String NombreMes(int pMes)
 		{
 			return NOMBRES_MESES[pMes - 1];
@@ -296,7 +331,6 @@ namespace EJ06
 		{
 			return Dia.ToString() + "/" + Mes.ToString() + "/" + Anio.ToString();
 		}
-		
 		/// <summary>
 		/// Sobrecarga del metodo Equals()
 		/// </summary>
@@ -447,21 +481,21 @@ namespace EJ06
 		#endregion
 		#region Fecha - Operadores
 		/// <summary>
-		/// 
+		/// Sobrecarga del Operador De igualdad
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Verdadero si diaA=diaB y mesA=mesB y añoA=añoB</returns>
 		public static bool operator ==(Fecha pA, Fecha pB)
 		{
 			return pA.EsIgual(pB);
 		}
 		/// <summary>
-		/// 
+		/// Sobre carga del operador
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Falso si diaA=diaB y mesA=mesB y añoA=añoB</returns>
 		public static bool operator !=(Fecha pA, Fecha pB)
 		{
 			return !(pA == pB);
