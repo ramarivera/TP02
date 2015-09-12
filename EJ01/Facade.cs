@@ -59,9 +59,9 @@ namespace EJ01
 		/// </summary>
 		/// <param name="pTriangulo">Triangulo para el cual se desea conocer su area</param>
 		/// <returns>Area del Triangulo</returns>
-		public double CalcularAreaTriguanlo(Triangulo pTriangilo)
+		public double CalcularAreaTriangulo(Triangulo pTriangulo)
         {
-            return pTriangilo.Area;
+            return pTriangulo.Area;
         }
 		/// <summary>
 		/// Obtiene el perimetro de un circulo

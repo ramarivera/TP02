@@ -26,7 +26,12 @@ namespace EJ04
         /// <summary>
         /// Representa el año de publicion del libro
         /// </summary>
-        private int iAnio;
+        private int iAño;
+
+        /// <summary>
+        /// Representa si el libro se encuentra prestado o no
+        /// </summary>
+        private bool iPrestado;
 
         /// <summary>
         /// Propiedad Titulo, solo lectura
@@ -56,28 +61,43 @@ namespace EJ04
         }
 
         /// <summary>
-        /// Propiedad Anio, solo lectura
+        /// Propiedad Año, solo lectura
         /// </summary>
-        public int Anio
+        public int Año
         {
-            get { return this.iAnio; }
-            private set { this.iAnio = value; }
+            get { return this.iAño; }
+            private set { this.iAño = value; }
         }
 
+        public bool Prestado
+        {
+            get { return this.iPrestado; }
+            set { this.iPrestado = value; }
+        }
         /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="pTitulo">Titulo del libro</param>
         /// <param name="pAutor">Autor del libro</param>
         /// <param name="pEditorial">Editorial del libro</param>
-        /// <param name="pAnio">Año de publicacion del libro</param>
-        public Libro(string pTitulo, string pAutor, string pEditorial, int pAnio)
+        /// <param name="pAño">Año de publicacion del libro</param>
+        public Libro(string pTitulo, string pAutor, string pEditorial, int pAño)
         {
             Titulo = pTitulo;
             Autor = pAutor;
             Editorial = pEditorial;
-            Anio = pAnio;
-        } 
+            Año = pAño;
+            Prestado = false;
+        }
 
+        public void Prestar()
+        {
+            this.Prestado = true;
+        }
+
+        public void Devolver()
+        {
+            this.Prestado = false;
+        }
     }
 }

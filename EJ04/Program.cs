@@ -32,12 +32,20 @@ namespace EJ04
         {
             Console.WriteLine("\n************************** Menu Principal *************************\n");
         }
+
+        /// <summary>
+        /// Muestra una cadena de caracteres, utilizado como separador en los menues secundarios por consola
+        /// </summary>
+        static void SeparadorOperatoria()
+        {
+            Console.WriteLine("\n-------------------Operando------------------\n");
+        }
 		static void Main(string[] args)
 		{
             Biblioteca biblioteca = new Biblioteca();
             cFachada = new Facade();
             string titulo, autor, editorial;
-            int año;
+            int año, opcion;
             Libro libro = null;
 
             bool seguir = true;
@@ -49,6 +57,8 @@ namespace EJ04
                 Console.WriteLine("2:\t Agregar un libro a la biblioteca");
                 Console.WriteLine("3:\t Quitar un libro de la biblioteca");
                 Console.WriteLine("4:\t Mostrar la informacion de un libro");
+                Console.WriteLine("5:\t Prestar un libro");
+                Console.WriteLine("6:\t Devolver un libro");
                 Console.WriteLine("0:\t Salir");
                 Console.Write("Opcion elegida: ");
                 switch (int.Parse(Console.ReadLine()))
@@ -57,6 +67,7 @@ namespace EJ04
                         {
                             if (libro == null)
                             {
+                                SeparadorOperatoria();
                                 Console.WriteLine("Ingrese los datos del libro");
                                 Console.Write("\t Titulo: ");
                                 titulo = Console.ReadLine();
@@ -90,9 +101,16 @@ namespace EJ04
                             }
                             else
                             {
-                                cFachada.AgregarABiblioteca(libro, biblioteca);
-                                libro = null;
-                                Console.WriteLine("Libro agregado a la bilioteca correctamente");
+                                bool cargado = cFachada.AgregarABiblioteca(libro, biblioteca);
+                                if (cargado)
+                                {
+                                    libro = null;
+                                    Console.WriteLine("Libro agregado a la bilioteca correctamente");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("La biblioteca esta llena");
+                                }
                                 Console.ReadKey();
                                 Console.WriteLine();
                             }
@@ -100,7 +118,8 @@ namespace EJ04
                         }
                     case 3:
                         {
-                            Console.WriteLine("Ingrese el titulo del libro a borrar");
+                            SeparadorOperatoria();
+                            Console.Write("Ingrese el titulo del libro a borrar ");
                             titulo = Console.ReadLine();
                             bool borrado = cFachada.QuitarDeBiblioteca(titulo, biblioteca);
                             if (borrado)
@@ -119,6 +138,81 @@ namespace EJ04
                         }
                     case 4:
                         {
+                            SeparadorOperatoria();
+                            Console.Write("Ingrese el titulo del libro ");
+                            titulo = Console.ReadLine();
+                            libro = cFachada.InformacionDeLibro(titulo,biblioteca);
+                            if (libro == null)
+                            {
+                                Console.WriteLine("No se encontro el libro");
+                            }
+                            else
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("Informacion del libro");
+                                Console.WriteLine("\t Titulo: {0}",libro.Titulo);
+                                Console.WriteLine("\t Autor: {0}",libro.Autor);
+                                Console.WriteLine("\t Editorial: {0}",libro.Editorial);
+                                Console.WriteLine("\t Año: {0}",libro.Año);
+                                Console.WriteLine("\t Prestado: {0}", libro.Prestado ? "Si" : "No");
+                                libro = null;
+                            }
+                            Console.ReadKey();
+                            Console.WriteLine();
+                            break;
+                        }
+                    case 5:
+                        {
+                            SeparadorOperatoria();
+                            Console.Write("Ingrese el titulo del libro a prestar ");
+                            titulo = Console.ReadLine();
+                            opcion = cFachada.PrestamoDeLibro(titulo,biblioteca);
+                            switch (opcion)
+                            {
+                                case 0:
+                                    {
+                                        Console.WriteLine("No se encontro el libro");
+                                        break;
+                                    }
+                                case -1:
+                                    {
+                                        Console.WriteLine("El libro ya se encuentra prestado");
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        Console.WriteLine("Libro prestado correctamente");
+                                        break;
+                                    }
+                            }
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 6:
+                        {
+                            SeparadorOperatoria();
+                            Console.Write("Ingrese el titulo del libro a devolver ");
+                            titulo = Console.ReadLine();
+                            opcion = cFachada.DevolucionDeLibro(titulo, biblioteca);
+                            switch (opcion)
+                            {
+                                case 0:
+                                    {
+                                        Console.WriteLine("No se encontro el libro");
+                                        break;
+                                    }
+                                case -1:
+                                    {
+                                        Console.WriteLine("El libro no se encuentra prestado");
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        Console.WriteLine("Libro devuelto correctamente");
+                                        break;
+                                    }
+                            }
+                            Console.ReadKey();
                             break;
                         }
                     case 0:

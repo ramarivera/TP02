@@ -38,7 +38,7 @@ namespace EJ04
         {
             bool llena=true;
             int i = 0;
-            while ((llena = false) && !(i < 5))
+            while ((llena) && (i < 5))
             {                
                 if(libros[i]==null)
                 {
@@ -46,23 +46,14 @@ namespace EJ04
                 }
                 i++;
             }
-            if (llena)
-            {
-                Console.WriteLine("La biblioteca esta llena");
-                Console.ReadKey();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return llena;
         }
 
         /// <summary>
         /// Agrega un libro a la biblioteca siempre que haya lugar para este
         /// </summary>
         /// <param name="pLibro">Libro que se quiere agregar a la biblioteca</param>
-        public void AgregarLibro(Libro pLibro)
+        public bool AgregarLibro(Libro pLibro)
         {
             int i =0;
             bool cargado = false;
@@ -78,6 +69,7 @@ namespace EJ04
                     i++;
                 }
             }
+            return cargado;
         }
 
         /// <summary>
@@ -100,25 +92,74 @@ namespace EJ04
             }
             return borrado;
         }
-/*
-        public Libro MostrarLibro(string titulo)
+
+        /// <summary>
+        /// Obtiene la instancia del libro que se corresponde con el titulo ingresado
+        /// </summary>
+        /// <param name="pTitulo">Titulo del libro que se quiere conocer la informacion</param>
+        /// <returns>Devuelve la instancia del libro solicitado, o null si no pudo encontrarlo</returns>
+        public Libro BuscarLibro(string pTitulo)
         {
             int i = 0;
+            Libro libro = null;
             bool encontrado = false;
-            while ((encontrado == false) || (i < 5))
+            while ((i < 5) && (encontrado == false))
             {
-                if (titulo == libros[i].Titulo)
+                if ((libros[i] != null) && (pTitulo == libros[i].Titulo))
                 {
-                    return libros[i];
+                    libro = libros[i];
                     encontrado = true;
                 }
                 i++;
             }
-            if (encontrado == false)
+            return libro;
+        }
+
+        /// <summary>
+        /// Realiza el prestado de un libro
+        /// </summary>
+        /// <param name="pTitulo">Titulo del libro a prestar</param>
+        /// <returns>Devuelve un numero entero: 0 si no pudo encontrar el libro; -1 si el libro ya se encuentra prestado; 1 si el libro se prestado correctamente</returns>
+        public int PrestarLibro(string pTitulo)
+        {
+            Libro libro = this.BuscarLibro(pTitulo);
+            if (libro == null)
             {
-                return null;
+                return 0;
+            }
+            else if (libro.Prestado)
+            {
+                return -1;
+            }
+            else
+            {
+                libro.Prestar();
+                return 1;
+            }
+
+        }
+
+        /// <summary>
+        /// Realiza la devolucion de un libro
+        /// </summary>
+        /// <param name="pTitulo">Titulo de libro a devolver</param>
+        /// <returnsDevuelve un numero entero: 0 si no pudo encontrar el libro; -1 si el libro no esta prestado prestado; 1 si el libro se devolvio correctamente></returns>
+        public int DevolverLibro(string pTitulo)
+        {
+            Libro libro = this.BuscarLibro(pTitulo);
+            if (libro == null)
+            {
+                return 0;
+            }
+            else if (libro.Prestado)
+            {
+                libro.Devolver();
+                return 1;
+            }
+            else
+            {
+                return -1;
             }
         }
- */
     }
 }

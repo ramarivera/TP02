@@ -40,6 +40,8 @@ namespace EJ06
 			anio = int.Parse(Console.ReadLine());
 			return new Fecha(dia, mes, anio);
 		}
+
+	
 		static void Main(string[] args)
 		{
 			Fecha lFecha1, lFecha2;
@@ -57,6 +59,7 @@ namespace EJ06
 				Console.WriteLine("3:\t Agregar Meses");
 				Console.WriteLine("4:\t Agregar Años");
 				Console.WriteLine("5:\t Comparar con");
+				Console.WriteLine("6:\t Restar con");
 				Console.WriteLine("0:\t Salir");
 				Console.Write("Opcion elegida: ");
 				switch (int.Parse(Console.ReadLine()))
@@ -82,7 +85,7 @@ namespace EJ06
 					case 4:
 						Console.Write("Ingrese la cantidad de anios que desea agregar: ");
 						aux = int.Parse(Console.ReadLine());
-						lFecha1 = lFecha1.AgregarAnio(aux);
+						lFecha1 = lFecha1.AgregarAño(aux);
 						Console.WriteLine();
 						break;
 					case 5:
@@ -108,6 +111,10 @@ namespace EJ06
 						}
 						Console.ReadKey();
 						Console.WriteLine();
+						break;
+					case 6:
+						lFecha2 = CargarFecha();
+						Console.WriteLine("La diferencia entre ambas es {0}",lFecha1-lFecha2);
 						break;
 					case 0:
 						seguir = false;

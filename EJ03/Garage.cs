@@ -89,8 +89,8 @@ namespace EJ03
         /// <summary>
         /// Quita el auto que se encuentra en el garage
         /// </summary>
-        /// <param name="auto">Auto a quitar del garage</param>
-        public void QuitarAuto(Auto auto)
+        /// <param name="pAuto">Auto a quitar del garage</param>
+        public void QuitarAuto(Auto pAuto)
         {
             this.Auto = null;
         }

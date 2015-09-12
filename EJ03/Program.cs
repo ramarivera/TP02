@@ -32,6 +32,14 @@ namespace EJ03
         {
             Console.WriteLine("\n************************** Menu Principal *************************\n");
         }
+
+        /// <summary>
+        /// Muestra una cadena de caracteres, utilizado como separador en los menues secundarios por consola
+        /// </summary>
+        static void SeparadorOperatoria()
+        {
+            Console.WriteLine("\n-------------------Operando------------------\n");
+        }
         static void Main(string[] args)
         {
             Garage garage= new Garage();
@@ -57,6 +65,7 @@ namespace EJ03
                         {
                             if (garage.NoHayAuto())
                             {
+                                SeparadorOperatoria();
                                 Console.WriteLine("Ingrese los datos del auto");
                                 Console.Write("\t Marca: ");
                                 marca = Console.ReadLine();
@@ -87,6 +96,7 @@ namespace EJ03
                             }
                             else
                             {
+                                SeparadorOperatoria();
                                 Console.WriteLine("Ingrese la informacion de la averia");
                                 Console.Write("\t Precio: ");
                                 precio = (double.Parse(Console.ReadLine()));
@@ -109,6 +119,7 @@ namespace EJ03
                             }
                            else
                            {
+                               SeparadorOperatoria();
                                auto = cFachada.MostrarAuto(garage);
                                Console.WriteLine("Marca: {0}",auto.Marca);
                                Console.WriteLine("Modelo: {0}",auto.Modelo);

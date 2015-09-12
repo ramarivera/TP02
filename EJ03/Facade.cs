@@ -26,22 +26,22 @@ namespace EJ03
         /// <summary>
         /// Permite agregar una averia al auto que está en el garage
         /// </summary>
-        /// <param name="Garage">Garage donde se encuentra el auto</param>
+        /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <param name="pPrecioAveria">Monto de la averia a agregar</param>
         /// <param name="pDescripcionAveria">Descripcion de la averia a agregar</param>
-        public void AgregarAveria(Garage Garage,double pPrecioAveria, string pDescripcionAveria)
+        public void AgregarAveria(Garage pGarage,double pPrecioAveria, string pDescripcionAveria)
         {
-            Garage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
+            pGarage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
         }
 
         /// <summary>
         /// Permite mostrar la informacion del auto que esta en el garage
         /// </summary>
-        /// <param name="Garage">Garage donde se encuentra el auto</param>
+        /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <returns>Devuelve la instancia del auto que esta en el garage</returns>
-        public Auto MostrarAuto(Garage Garage)
+        public Auto MostrarAuto(Garage pGarage)
         {
-            return Garage.Auto;
+            return pGarage.Auto;
         }
     }
 }

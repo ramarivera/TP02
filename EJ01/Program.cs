@@ -79,7 +79,7 @@ namespace EJ01
 
                         Triangulo triangulo = cFachada.CrearTriangulo(punto1, punto2, punto3);
                         Console.WriteLine("El perimetro del triangulo es {0}", cFachada.CalcularPerimetroTriangulo(triangulo));
-                        Console.Write("El area del triangulo es {0}", cFachada.CalcularAreaTriguanlo(triangulo));
+                        Console.Write("El area del triangulo es {0}", cFachada.CalcularAreaTriangulo(triangulo));
 						Console.ReadKey();
 						Console.WriteLine();
 						break;

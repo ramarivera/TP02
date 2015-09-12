@@ -7,23 +7,29 @@ using System.Threading.Tasks;
 namespace EJ06
 {
 	/// <summary>
-	/// 
+	/// Representa una fecha, tanto en el calendario Gregoriano como Juliano. 
+	/// Su valor minimo es 01/01/1582 y su valor maximo es 31/12/2582.
+	/// Implementa operadores relacionales y aritmetica de Fechas (Resta, suma)
 	/// </summary>
 	class Fecha
 	{
 		#region Fecha - Atributos 
 		/// <summary>
-		/// Representa el numero del dia de una fecha, sus valores permitidos estan entre 1 y 31, dependiendo del mes.
+		/// Numero de dia en formato Gregoriano, sus valores permitidos estan entre 1 y 31, dependiendo del mes.
 		/// </summary>
 		private readonly int iDia;
 		/// <summary>
-		/// Representa el numero del mes de una fecha, sus valores permitidos estan entre 1 y 12.
+		/// Numero de mes en formato Gregoriano, sus valores permitidos estan entre 1 y 12.
 		/// </summary>
 		private readonly int  iMes;
 		/// <summary>
-		/// Representa el numero del año de una fecha, sus valores van desde 1700 hasta 2299
+		/// Numero de Año en formato Gregoriano, sus valores van desde 1582 hasta 2582
 		/// </summary>
-		private readonly int  iAnio;
+		private readonly int  iAño;
+		/// <summary>
+		/// Numero de Dias en formato Juliano.
+		/// </summary>
+		private readonly long iDiaJuliano;
 		#endregion
 		#region Fecha - Constantes
 		/// <summary>
@@ -45,52 +51,91 @@ namespace EJ06
 		/// <summary>
 		/// Numero Minimo permitido de año. Entonces la minima fecha instanciable es 01/01/1990
 		/// </summary>
-		private const int ANIO_MINIMO = 1700;
+		private static readonly int AÑO_MINIMO = 1700;
 		/// <summary>
 		/// Numero maximo permitido de año. Entonces la maxima fecha instanciable es 31/12/2199
 		/// </summary>
-		private const int ANIO_MAXIMO = 2299;
+		private static readonly int AÑO_MAXIMO = 2582;
+		/// <summary>
+		/// Limite inferior de la fecha en formato Juliana, equivalente al 01/01/1700
+		/// </summary>
+		private static readonly long BASE_JULIANA = 2341973;
+		/// <summary>
+		/// Limite Superior de la fecha en formato Juliana, equivalente al 31/12/2299
+		/// </summary>
+		private static readonly long TOPE_JULIANA = 2561117;
 		#endregion
 		#region Fecha - Constructores
 		/// <summary>
-		/// Constructor de la clase Fecha
+		/// Constructor de Instancia, Se ingresan los valores para el calendario Gregoriano
 		/// </summary>
 		/// <param name="pDia">Numero de Dia</param>
 		/// <param name="pMes">Numero de Mes</param>
-		/// <param name="pAnio">Numero de Anio</param>
-		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si los valores de dias, mes o año no resultan validos</exception>
-		public Fecha(int pDia, int pMes, int pAnio)
+		/// <param name="pAño">Numero de Año</param>
+		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si los valores de pDia, pMes o pAño no se encuentran en el rango valido</exception>
+		public Fecha(int pDia, int pMes, int pAño)
 		{
-			if (pAnio < ANIO_MINIMO)
+			if (pAño < AÑO_MINIMO)
 			{
-				throw new System.ArgumentOutOfRangeException("pAnio",pAnio,"El Anio no puede ser menor a " + ANIO_MINIMO.ToString());
+				throw new System.ArgumentOutOfRangeException("pAño",pAño,"El Año no puede ser menor a " + AÑO_MINIMO.ToString());
             }
-			if (pAnio > ANIO_MAXIMO)
+			if (pAño > AÑO_MAXIMO)
 			{
-				throw new System.ArgumentOutOfRangeException("pAnio", pAnio, "El Anio no puede ser mayor a " + ANIO_MAXIMO.ToString());
+				throw new System.ArgumentOutOfRangeException("pAño", pAño, "El Año no puede ser mayor a " + AÑO_MAXIMO.ToString());
 			}
 			if (pMes < 1 || pMes > 12)
 			{
 				throw new System.ArgumentOutOfRangeException("pMes", pMes, "El numero de mes debe estar entre 01 y 12");
 			}
-			if (pDia > Fecha.DiasDelMesAnio(pMes, pAnio))
+			if (pDia > Fecha.DiasDelMesAño(pMes, pAño))
 			{
-				throw new System.ArgumentOutOfRangeException("pDia", pDia, "El numero de dias es mayor a los dias permitidos para el mes y anio");
+				throw new System.ArgumentOutOfRangeException("pDia", pDia, "El numero de dias es mayor a los dias permitidos para el mes y Año");
 			}
 			if (pDia < 1)
 			{
 				throw new System.ArgumentOutOfRangeException("pMes", pMes, "El valor minimo de dia es 01");
 
 			}
+
+			long diaJuliano = Fecha.ToJuliano(pDia, pMes, pAño);
+
 			this.iDia = pDia;
 			this.iMes = pMes;
-			this.iAnio = pAnio;
+			this.iAño = pAño;
+			this.iDiaJuliano = diaJuliano;
 
 		}
 		/// <summary>
-		/// Constructor por defecto de la clase, devolviendo el 01/01/1700
+		/// Constructor por defecto de Instancia, devuelve el 01/01/1582
 		/// </summary>
-		public Fecha() : this(1, 1, ANIO_MINIMO) { }
+		public Fecha() : this(BASE_JULIANA) { }
+		/// <summary>
+		/// Constructor de instancia, se ingresa el numero de dia del calendario Juliano
+		/// </summary>
+		/// <param name="pDia">Cantidad de dias</param>
+		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si el valor de pDia es menor al minimo permitido (BASE_JULIANA)</exception>
+		public Fecha(long pDia)
+		{
+			if (pDia < BASE_JULIANA)
+			{
+				throw new System.ArgumentOutOfRangeException("pDia", pDia, "El numero de dias no puede ser menor a " + BASE_JULIANA.ToString() + " (por compatibilidad)");
+			}
+
+			if (pDia > TOPE_JULIANA)
+			{
+				throw new System.ArgumentOutOfRangeException("pDia", pDia, "El numero de dias no puede ser mayor a " + TOPE_JULIANA.ToString() + " (por compatibilidad)");
+			}
+
+			int[] diaMesAño = new int[3];
+
+			diaMesAño = Fecha.ToGregoriano(pDia);
+
+			this.iDia = diaMesAño[0];
+			this.iMes = diaMesAño[1];
+			this.iAño = diaMesAño[2];
+			this.iDiaJuliano = pDia;
+
+		}
 		#endregion
 		#region Fecha - Propiedades
 		/// <summary>
@@ -110,31 +155,38 @@ namespace EJ06
 		/// <summary>
 		/// Propiedad Año, solo lectura
 		/// </summary>
-		public int Anio
+		public int Año
 		{
-			get	{ return this.iAnio; }
+			get	{ return this.iAño; }
+		}
+		/// <summary>
+		/// Propiedad DiaJuliano, solo lectura
+		/// </summary>
+		public long DiaJuliano
+		{
+			get { return this.iDiaJuliano; }
 		}
 		/// <summary>
 		/// Propiedad Bisiesto, nos permite saber si el año de la instancia es bisiesto
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Verdadero si el año de la instancia es bisiesto</returns>
 		public bool Bisiesto
 		{
-			get { return Fecha.EsBisiesto(Anio); }
+			get { return Fecha.EsBisiesto(Año); }
 		}
 		/// <summary>
-		/// Propiedad DiasMesAnioActual, Nos permite conocer el numero de dias que posee el mes y el año de la instancia 
+		/// Propiedad DiasMesAñoActual, Nos permite conocer el numero de dias que posee el mes y el año de la instancia 
 		/// </summary>
-		public int DiasMesAnioActual
+		public int DiasMesAñoActual
 		{
-			get { return DiasDelMesAnio(Mes, Anio); }
+			get { return DiasDelMesAño(Mes, Año); }
 		}
 		/// <summary>
 		/// Propiedad DiaSemanaActual, Nos permite conocer el nombre del dia de la semana de la instancia
 		/// </summary>
 		public String DiaSemanaActual
 		{
-			get { return Fecha.DiaSemanaFecha(Dia, Mes, Anio); }
+			get { return Fecha.DiaSemanaFecha(Dia, Mes, Año); }
 		}
 		/// <summary>
 		/// Pripiedad NombreMesActual, nos permite conocer el nombre del mes de la instancia
@@ -148,77 +200,80 @@ namespace EJ06
 		/// <summary>
 		/// Permite determinar si un año es bisiesto
 		/// </summary>
-		/// <param name="pAnio">Año para el cual se desea conocer si es bisiesto</param>
+		/// <param name="pAño">Año para el cual se desea conocer si es bisiesto</param>
 		/// <returns>Verdadero si es bisiesto, falso si no</returns>
-		public static bool EsBisiesto(int pAnio)
+		public static bool EsBisiesto(int pAño)
 		{
-			/*	Si pAnio es divisible por 4 y no es divisible por 100 
+			/*	Si pAño es divisible por 4 y no es divisible por 100 
 				O          Es divisible por 400, entonces es bisiesto */
-			return (pAnio % 4 == 0 && pAnio % 100 != 0 || pAnio % 400 == 0);
+			return (pAño % 4 == 0 && pAño % 100 != 0 || pAño % 400 == 0);
 		}
 		/// <summary>
 		/// Permite determinar la cantidad de dias que tiene un mes en un año determinado
 		/// </summary>
 		/// <param name="pMes">Mes para el cual se desean conocer los dias maximos</param>
-		/// <param name="pAnio">Año, para considerar los años bisiestos</param>
+		/// <param name="pAño">Año, para considerar los años bisiestos</param>
 		/// <returns>Cantidad de dias del mes y año</returns>
-		public static int DiasDelMesAnio (int pMes, int pAnio)
+		public static int DiasDelMesAño (int pMes, int pAño)
 		{
 			// Si el mes es febrero(2) y el Año es bisiesto, los dias son 29; si no se consulta en el array de constantes 
-			return (pMes == 2 && Fecha.EsBisiesto(pAnio)) ? 29 : DIAS_MESES[pMes - 1]; 
+			return (pMes == 2 && Fecha.EsBisiesto(pAño)) ? 29 : DIAS_MESES[pMes - 1]; 
         }
 		/// <summary>
 		/// Determina el nombre del dia de la semana de una fecha
 		/// </summary>
 		/// <param name="pDia">Numero de Dia</param>
 		/// <param name="pMes">Numero de Mes</param>
-		/// <param name="pAnio">Numero de Año</param>
+		/// <param name="pAño">Numero de Año</param>
 		/// <returns>Nombre del dia de la semana para los valores dia/mes/año</returns>
-		public static String DiaSemanaFecha(int pDia, int pMes, int pAnio)
+		public static String DiaSemanaFecha(int pDia, int pMes, int pAño)
 		{
 			int resultado = 0;
 
-			// http://gaussianos.com/como-calcular-que-dia-de-la-semana-fue/
-
-			if (1700 <= pAnio && pAnio <= 1799)
+			//El metodo aplicado en este algoritmo fue extraido de la siguiente pagina web: http://gaussianos.com/como-calcular-que-dia-de-la-semana-fue/
+            //Basicamente genera un coeficiente que determina que dia de la semana fue una fecha, a partir de distitas caracteristicas de la fecha
+            
+            //En primer lugar verifica a que siglo pertenece el año de la fecha, sumando un determinado numero segun corresponda
+			if (1700 <= pAño && pAño <= 1799)
 			{
 				resultado = 5;
 			}
-			else if (1800 <= pAnio && pAnio <= 1899)
+			else if (1800 <= pAño && pAño <= 1899)
 			{
 				resultado = 3;
 			}
-			else if (1900 <= pAnio && pAnio <= 1999)
+			else if (1900 <= pAño && pAño <= 1999)
 			{
 				resultado = 1;
 			}
-			else if (2000 <= pAnio && pAnio <= 2099)
+			else if (2000 <= pAño && pAño <= 2099)
 			{
 				resultado = 0;
 			}
-			else if (2100 <= pAnio && pAnio <= 2199)
+			else if (2100 <= pAño && pAño <= 2199)
 			{
 				resultado = -2;
 			}
-			else if (2200 <= pAnio && pAnio <= 2299)
+			else if (2200 <= pAño && pAño <= 2299)
 			{
 				resultado = -4;
 			}
 
 
-			//
-			resultado += ((pAnio % 100) + (pAnio % 100) / 4);
+            //Tomamos los dos últimos dígitos del año en cuestión y a ese número le sumamos un cuarto del mismo (despreciando los decimales)
+            //Para obtener los ultimos dos digitos del año, hallamos modulo 100
+			resultado += ((pAño % 100) + (pAño % 100) / 4);
 
-			//
-			resultado += Fecha.EsBisiesto(pAnio) ? -1 : 0;
+			//En caso de que el año sea bisiesta, se resta 1
+			resultado += Fecha.EsBisiesto(pAño) ? -1 : 0;
 
-			//
+			//Se suma un valor correspondiente al mes de la fecha, almacenado en COEFICIENTES_MESES
 			resultado += COEFICIENTES_MESES[pMes - 1];
 
-			//
+			//Se suma el dia de la fecha
 			resultado += pDia;
 
-			//
+			//A la suma final le hallamos modulo 7 y el resultado final será la posicion del arreglo NOMBRES_DIAS correspondiente al dia de la fecha
 			return NOMBRES_DIAS[resultado % 7];
 		}
 		/// <summary>
@@ -230,106 +285,131 @@ namespace EJ06
 		{
 			return NOMBRES_MESES[pMes - 1];
 		}
-		#endregion
-		#region Fecha - Metodos "Agregar"
 		/// <summary>
-		/// 
+		/// Convierte una fecha del calendario Gregoriano al Juliano
 		/// </summary>
-		/// <param name="pDias"></param>
-		/// <returns></returns>
+		/// <param name="pDia">Dia</param>
+		/// <param name="pMes">Mes</param>
+		/// <param name="pAño">Año</param>
+		/// <returns>Dias del calendario Juliano equivalentes a pDia/pMes/pAño</returns>
+		public static long ToJuliano (int pDia, int pMes, int pAño)
+		{
+			int dia = pDia;
+			int mes = pMes;
+			int año = pAño;
+
+			if (mes < 3)
+			{
+				mes = mes + 12;
+				año--;
+			}
+
+			return dia + (153 * mes - 457) / 5 + 365 * año + (año / 4) - (año / 100) + (año / 400) + 1721119;
+		}
+		/// <summary>
+		/// Convierte una fecha del calendario Juliano a Gregoriano
+		/// </summary>
+		/// <param name="pUnaFecha">Dias en el calendario Juliano</param>
+		/// <returns>[Dia, Mes, Año] equivalentes a pUnaFecha en el calendario Juliano </returns>
+		public static int[] ToGregoriano (long pUnaFecha)
+		{
+			int[] resultado = new int[3];
+
+			long L = pUnaFecha + 68569;
+			long N = (long)((4 * L) / 146097);
+			L = L - ((long)((146097 * N + 3) / 4));
+			long I = (long)((4000 * (L + 1) / 1461001));
+			L = L - (long)((1461 * I) / 4) + 31;
+			long J = (long)((80 * L) / 2447);
+			resultado[0] = (int)(L - (long)((2447 * J) / 80));
+			L = (long)(J / 11);
+			resultado[1] = (int)(J + 2 - 12 * L);
+			resultado[2] = (int)(100 * (N - 49) + I + L);
+
+			return resultado;
+		}
+		#endregion
+		#region Fecha - Aritmetica de Fechas
+		/// <summary>
+		/// Permite agregar dias a una instancia de Fecha.
+		/// </summary>
+		/// <param name="pDias">Cantidad de dias a Agregar, mayor igual a 1</param>
+		/// <returns>Una nueva Fecha pDias en el futuro a partir de la fecha</returns>
+		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si </exception>
 		public Fecha AgregarDias(int pDias)
 		{
-			int maxDias, nuevoDia;
-
-
-			maxDias = DiasMesAnioActual;
-			nuevoDia = Dia + pDias;
-
-			if (!(nuevoDia > maxDias))
+			if (pDias < 1)
 			{
-				//No salte de Mes
-				return new Fecha(nuevoDia, Mes, Anio);
-			}
-			else
-			{
-				Fecha auxFecha = new Fecha(1, Mes, Anio);
-				auxFecha = auxFecha.AgregarMeses(1);
-				return auxFecha.AgregarDias(nuevoDia - maxDias - 1);
+				throw new System.ArgumentOutOfRangeException("pDias", pDias, "El numero de dias a agregar debe ser mayor igual a 1");
 			}
 
+			return new Fecha(DiaJuliano + pDias);
 		}
 		/// <summary>
-		/// 
+		/// Permite agregar meses a una instancia de Fecha.
 		/// </summary>
-		/// <param name="pMeses"></param>
-		/// <returns></returns>
+		/// <param name="pMeses">Cantidad de meses a Agregar, mayor igual a 1</param>
+		/// <returns>Una nueva Fecha pMeses en el futuro a partir de la fecha</returns>
+		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si pMes es menor a 1 </exception>
 		public Fecha AgregarMeses(int pMeses)
 		{
-			if (pMeses > 1)
+			if (pMeses < 1)
 			{
-				// int auxMes = pMeses - 1;
-				Fecha auxFecha = this.AgregarMeses(1);
-				return auxFecha.AgregarMeses(pMeses-1);
+				throw new System.ArgumentOutOfRangeException("pMeses", pMeses, "El numero de meses a agregar debe ser mayor igual a 1");
+			}
+			if (pMeses > 1)
+			{   // Si hay que agregar mas de un mes			
+
+				Fecha auxFecha = this.AgregarMeses(1);			// Aumento en uno el mes
+				return auxFecha.AgregarMeses(pMeses - 1);       // Llamo recursivamente a AgregarMeses() con los meses sobrantes
 			}
 			else
-			{
-				if (Dia == 31)
-				{
-					if (Mes == 12)
-					{
-						Fecha auxFecha = new Fecha(Dia, 1, Anio);
-						return auxFecha.AgregarAnio(1);
-					}
-					else
-					{
-						int maxDias = Fecha.DiasDelMesAnio(Mes + 1, Anio);
-						return new Fecha(maxDias, Mes + 1, Anio);
-					}
-				}
-				else
-				{
-					return new Fecha(Dia, Mes + 1, Anio);
-				}
+			{   // Si solo hay que agregar un mes
+			
+				int dias = DiasMesAñoActual;
+				return this.AgregarDias(dias);
 			}
 		}
 		/// <summary>
-		/// 
+		/// Permite agregar años a una instancia de Fecha. 
 		/// </summary>
-		/// <param name="pAnio"></param>
-		/// <returns></returns>
-		public Fecha AgregarAnio (int pAnio)
+		/// <param name="pAño">Cantidad de meses a Agregar, mayor igual a 1</param>
+		/// <returns>Una nueva Fecha pAños en el futuro a partir de la fecha</returns>
+		/// <exception cref="ArgumentOutOfRangeException"> Arroja excepcion si pAño es menor a 1</exception>
+		public Fecha AgregarAño (int pAño)
 		{
-			int nuevoDia, nuevoMes, nuevoAnio;
-
-			nuevoAnio = Anio + pAnio;
-
-			if (Dia==29 && Mes==2)
+			if (pAño < 1)
 			{
-				if (Fecha.EsBisiesto(nuevoAnio))
-				{
-					nuevoDia = 29;
-					nuevoMes = 2;
-				}
-				else
-				{
-					nuevoDia = 1;
-					nuevoMes = 3;
-				}
-			}
-			else
-			{
-				nuevoDia = Dia;
-				nuevoMes = Mes;
+				throw new System.ArgumentOutOfRangeException("pAño", pAño, "El numero de años a agregar debe ser mayor igual a 1");
 			}
 
-			return new Fecha(nuevoDia, nuevoMes, nuevoAnio);
-			
+			long acuDias = 0;
+
+			for (int i = Año; i < Año + pAño; i++)
+			{
+				acuDias += Fecha.EsBisiesto(i) ? 366 : 365;		// Si el año es bisiesto, sumo 366 dias
+			}
+
+			return new Fecha(DiaJuliano + acuDias);
+		}
+		/// <summary>
+		/// Permite calcular la diferencia en dias entre la instancia y pOtraFecha
+		/// </summary>
+		/// <param name="pOtraFecha">Fecha con la que se desea calcular la diferencia</param>
+		/// <returns>Diferencia en dias entre las dos fechas</returns>
+		public int RestarFecha (Fecha pOtraFecha)
+		{
+			return Math.Abs((int)(DiaJuliano - pOtraFecha.DiaJuliano));		
 		}
 		#endregion
 		#region Fecha - Metodos Sobrecargados (Equals, ToString, GetHashCode)
+		/// <summary>
+		/// Sobre carga del metodo ToString()
+		/// </summary>
+		/// <returns>Representacion como cadena de texto de la fecha, en formato dd/mm/aaaa</returns>
 		public override string ToString()
 		{
-			return Dia.ToString() + "/" + Mes.ToString() + "/" + Anio.ToString();
+			return "G: " + Dia.ToString() + "/" + Mes.ToString() + "/" + Año.ToString() + " \tJ: " + DiaJuliano.ToString() ;
 		}
 		/// <summary>
 		/// Sobrecarga del metodo Equals()
@@ -360,9 +440,9 @@ namespace EJ06
 			return (this.EsIgual((Fecha)obj));
 		}
 		/// <summary>
-		/// Metodo Equals para objetos de la clase Fecha
+		/// Metodo Equals() para objetos de la clase Fecha
 		/// </summary>
-		/// <param name="pFecha">Fecha con la que desea controlar igualdad (NO IDENTIDAD)</param>
+		/// <param name="pFecha">Fecha con la que se desea comparar igualdad</param>
 		/// <returns>Verdadero o Falso, dependiendo la igualdad de los elementos</returns>
 		public bool Equals(Fecha pFecha)
 		{
@@ -382,13 +462,13 @@ namespace EJ06
 			return (this.EsIgual(pFecha));
 		}
 		/// <summary>
-		/// Sobrecarga del metodo GetHashCode()
-		/// http://www.loganfranken.com/blog/692/overriding-equals-in-c-part-2/
-		/// El HashCode debe ser rapido de calcular y con pocas colisiones
+		/// Sobrecarga del metodo GetHashCode().
+		/// Mas informacion: http://www.loganfranken.com/blog/692/overriding-equals-in-c-part-2/
 		/// </summary>
 		/// <returns>Integer HashCode</returns>
 		public override int GetHashCode()
 		{
+			// El HashCode debe ser rapido de calcular y con pocas colisiones
 			// Buscamos grandes productos semi-aleatorios, por lo tanto somos concientes de que un overflow de integers es posible, el cual no nos afecta
 			unchecked
 			{
@@ -402,77 +482,54 @@ namespace EJ06
 				//Sucesivamente vamos acumulando los resultados
 				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Mes) ? Mes.GetHashCode() : 0);
 				//Por ultimo en vez de usar +, usamos el operador XOR ^ para obtener una implementacion mas performante
-				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Anio) ? Anio.GetHashCode() : 0);
+				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Año) ? Año.GetHashCode() : 0);
 				return hash;
 			}
 		}
 		#endregion
 		#region Fecha - Metodos de Comparacion
 		/// <summary>
-		/// 
+		/// Implementa la logica para verificar igualdad de fechas.
+		/// Metodo base (junto con EsMayor) de todos los otros metodos de comparacion y operadores relacionales
 		/// </summary>
-		/// <param name="pOtraFecha"></param>
-		/// <returns></returns>
+		/// <param name="pOtraFecha">Fecha con la cual realizar la comparacion</param>
+		/// <returns>Verdadero si los valores de Dia, Mes y Año coinciden</returns>
 		private bool EsIgual(Fecha pOtraFecha)
 		{
-			return (Anio == pOtraFecha.Anio && Mes == pOtraFecha.Mes && Dia == pOtraFecha.Dia);
+			return (DiaJuliano==pOtraFecha.DiaJuliano);
 		}
 		/// <summary>
-		/// 
+		/// Implementa la logica para verificar si una fecha es mayor que otra
+		/// Metodo base (junto con EsIgual) de todos los otros metodos de comparacion y operadores relacionales
 		/// </summary>
-		/// <param name="pOtraFecha"></param>
+		/// <param name="pOtraFecha">Fecha con la cual realizar la comparacion</param>
 		/// <returns></returns>
 		private bool EsMayor(Fecha pOtraFecha)
 		{
-			// 12/11/2012 y 04/10/2012
-			if (Anio < pOtraFecha.Anio)
-			{
-				if (Anio == pOtraFecha.Anio)
-				{
-					if (Mes < pOtraFecha.Mes)
-					{
-						if (Mes == pOtraFecha.Mes)
-						{
-							if (Dia <= pOtraFecha.Dia)
-							{
-								return false;
-							}
-						}
-						else
-						{
-							return false;
-						}
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			return true;
+			return DiaJuliano > pOtraFecha.DiaJuliano;
 		}
 		/// <summary>
-		/// 
+		/// Implementa la logica para verificar si una fecha es menor que otra
 		/// </summary>
-		/// <param name="pOtraFecha"></param>
+		/// <param name="pOtraFecha">Fecha con la cual realizar la comparacion</param>
 		/// <returns></returns>
 		private bool EsMenor(Fecha pOtraFecha)
 		{
 			return !(this.EsMayor(pOtraFecha) || this.EsIgual(pOtraFecha));
 		}
 		/// <summary>
-		/// 
+		/// Implementa la logica para verificar si una fecha es mayor o igual que otra
 		/// </summary>
-		/// <param name="pOtraFecha"></param>
+		/// <param name="pOtraFecha">Fecha con la cual realizar la comparacion</param>
 		/// <returns></returns>
 		private bool EsMayorIgual(Fecha pOtraFecha)
 		{
 			return (this.EsIgual(pOtraFecha) || this.EsMayor(pOtraFecha));
 		}
 		/// <summary>
-		/// 
+		/// Implementa la logica para verificar si una fecha es menor o igual que otra
 		/// </summary>
-		/// <param name="pOtraFecha"></param>
+		/// <param name="pOtraFecha">Fecha con la cual realizar la comparacion</param>
 		/// <returns></returns>
 		private bool EsMenorIgual(Fecha pOtraFecha)
 		{
@@ -481,64 +538,94 @@ namespace EJ06
 		#endregion
 		#region Fecha - Operadores
 		/// <summary>
-		/// Sobrecarga del Operador De igualdad
+		/// Operador De Igualdad
 		/// </summary>
 		/// <param name="pA">Primera fecha</param>
 		/// <param name="pB">Segunda Fecha</param>
-		/// <returns>Verdadero si diaA=diaB y mesA=mesB y añoA=añoB</returns>
+		/// <returns>Verdadero si los valores de Dia, Mes y Año coinciden</returns>
 		public static bool operator ==(Fecha pA, Fecha pB)
 		{
 			return pA.EsIgual(pB);
 		}
 		/// <summary>
-		/// Sobre carga del operador
+		/// Operador de Desigualdad
 		/// </summary>
 		/// <param name="pA">Primera fecha</param>
 		/// <param name="pB">Segunda Fecha</param>
-		/// <returns>Falso si diaA=diaB y mesA=mesB y añoA=añoB</returns>
+		/// <returns>Verdader si los valores de Dia, Mes o Año no son iguales entre si</returns>
 		public static bool operator !=(Fecha pA, Fecha pB)
 		{
 			return !(pA == pB);
 		}
 		/// <summary>
-		/// 
+		/// Operador Mayor
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Verdadero si pA es posterior en el calendario a pB</returns>
 		public static bool operator >(Fecha pA, Fecha pB)
 		{
 			return pA.EsMayor(pB);
 		}
 		/// <summary>
-		/// 
+		/// Operador Menor
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Verdadero si pA es anterior en el calendario a pB</returns>
 		public static bool operator <(Fecha pA, Fecha pB)
 		{
 			return pA.EsMenor(pB);
 		}
 		/// <summary>
-		/// 
+		/// Operador Mayor-Igual
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Verdadero si pA es posterior en el calendario a pB, o si pA es igual a pB</returns>
 		public static bool operator >=(Fecha pA, Fecha pB)
 		{
 			return pA.EsMayorIgual(pB);
 		}
 		/// <summary>
-		/// 
+		/// Operador Menor-Igual
 		/// </summary>
-		/// <param name="pA"></param>
-		/// <param name="pB"></param>
-		/// <returns></returns>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda Fecha</param>
+		/// <returns>Verdadero si pA es anterior en el calendario a pB, o si pA es igual a pB</returns>
 		public static bool operator <=(Fecha pA, Fecha pB)
 		{
 			return pA.EsMenorIgual(pB);
+		}
+		/// <summary>
+		/// Operador Suma de Dias
+		/// </summary>
+		/// <param name="pA">Una Fecha</param>
+		/// <param name="iB">Cantidad de Dias a Agregar</param>
+		/// <returns>Una Fecha iB dias mas en el futuro que pA</returns>
+		public static Fecha operator +(Fecha pA, int iB)
+		{
+			return pA.AgregarDias(iB);
+		}
+		/// <summary>
+		/// Operador Suma de Dias
+		/// </summary>
+		/// <param name="iB">Cantidad de Dias a Agregar</param>
+		/// <param name="pA">Una Fecha</param>
+		/// <returns>Una Fecha iB dias mas en el futuro que pA</returns>
+		public static Fecha operator +(int iB, Fecha pA)
+		{
+			return pA + iB;
+		}
+		/// <summary>
+		/// Operador diferencia de Fechas
+		/// </summary>
+		/// <param name="pA">Primera fecha</param>
+		/// <param name="pB">Segunda fecha</param>
+		/// <returns>Diferencia en dias entre ambas fechas</returns>
+		public static int operator -(Fecha pA, Fecha pB)
+		{
+			return pA.RestarFecha(pB);
 		}
 		#endregion
 	}
