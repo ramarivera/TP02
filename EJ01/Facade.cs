@@ -7,79 +7,74 @@ using System.Threading.Tasks;
 namespace EJ01
 {
     /// <summary>
-    /// Clase Fachada del ejercicio01, abstrae implementaciones de las clases <see cref="Triangulo"/>,<see cref="Punto"/>  y <see cref="Circulo"/>
+    /// Clase Fachada del ejercicio01, abstrae los eventos del sistema
     /// </summary>
     class Facade
 	{
         /// <summary>
-        /// Permite obtener una nueva instancia de la clase <see cref="Circulo"/>
-        /// </summary>
-        /// <param name="pCentro">Centro del Circulo</param>
-        /// <param name="pRadio">Radio del Circulo</param>
-        /// <returns>Una nueva instancia de Circulo</returns>
-        public Circulo CrearCirculo(Punto pCentro, double pRadio)
-        {
-            Circulo circulo = new Circulo(pCentro,pRadio);
-            return circulo;
-        }
-        /// <summary>
-        /// Permite obtener una nueva instancia de la clase <see cref="Triangulo"/>
-        /// </summary>
-        /// <param name="pPunto1">Punto 1 del triangulo</param>
-        /// <param name="pPunto2">Punto 2 del triangulo</param>
-        /// <param name="pPunto3">Punto 3 del triangulo</param>
-        /// <returns>Una nueva instancia de Triangulo</returns>
-        public Triangulo CrearTriangulo(Punto pPunto1, Punto pPunto2, Punto pPunto3)
-        {
-            Triangulo triangulo = new Triangulo(pPunto1, pPunto2, pPunto3);
-            return triangulo;
-        }
-        /// <summary>
-        /// Permite obtener una nueva instancia de la clase <see cref="Punto"/>
-        /// </summary>
-        /// <param name="pX">Coordenada X del punto</param>
-        /// <param name="pY">Coordenada Y del punto</param>
-        /// <returns>Una nueva instancia de Punto</returns>
-        public Punto CrearPunto(double pX,double pY)
-        {
-            Punto punto = new Punto(pX, pY);
-            return punto;
-        }
-        /// <summary>
         /// Obtiene el perimetro de un <see cref="Triangulo"/>
         /// </summary>
-        /// <param name="pTriangulo">Triangulo para el cual se desea conocer su perimetro</param>
+        /// <param name="pX1">Coordenada X del punto 1</param>
+        /// <param name="pY1">Coordenada Y del Punto 1</param>
+        /// <param name="pX2">Coordenada X del punto 2</param>
+        /// <param name="pY2">Coordenada Y del Punto 2</param>
+        /// <param name="pX3">Coordenada X del punto 3</param>
+        /// <param name="pY3">Coordenada Y del Punto 3</param>
         /// <returns>Perimetro del Triangulo</returns>
-        public double CalcularPerimetroTriangulo(Triangulo pTriangulo)
+        public double CalcularPerimetroTriangulo(double pX1, double pY1, double pX2, double pY2, double pX3, double pY3)
         {
-            return pTriangulo.Perimetro;
+            Punto lPunto1 = new Punto(pX1, pY1);
+            Punto lPunto2 = new Punto(pX2, pY2);
+            Punto lPunto3 = new Punto(pX3, pY3);
+            Triangulo lTriangulo = new Triangulo(lPunto1, lPunto2, lPunto3);
+            return lTriangulo.Perimetro;
         }
+
         /// <summary>
         /// Obtiene el area de un <see cref="triangulo"/>
         /// </summary>
-        /// <param name="pTriangulo">Triangulo para el cual se desea conocer su area</param>
+        /// <param name="pX1">Coordenada X del punto 1</param>
+        /// <param name="pY1">Coordenada Y del Punto 1</param>
+        /// <param name="pX2">Coordenada X del punto 2</param>
+        /// <param name="pY2">Coordenada Y del Punto 2</param>
+        /// <param name="pX3">Coordenada X del punto 3</param>
+        /// <param name="pY3">Coordenada Y del Punto 3</param>
         /// <returns>Area del Triangulo</returns>
-        public double CalcularAreaTriangulo(Triangulo pTriangulo)
+        public double CalcularAreaTriangulo(double pX1, double pY1, double pX2, double pY2, double pX3, double pY3)
         {
-            return pTriangulo.Area;
+            Punto lPunto1 = new Punto(pX1, pY1);
+            Punto lPunto2 = new Punto(pX2, pY2);
+            Punto lPunto3 = new Punto(pX3, pY3);
+            Triangulo lTriangulo = new Triangulo(lPunto1, lPunto2, lPunto3);
+            return lTriangulo.Area;
         }
-		/// <summary>
-		/// Obtiene el perimetro de un <see cref="Circulo"/>
-		/// </summary>
-		/// <param name="pCirculo">Circulo para el cual se desea conocer su perimetro</param>
-		/// <returns>Perimetro del Circulo</returns>
-		public double CalcularPerimetroCirculo(Circulo pCirculo)
-        {
-            return pCirculo.Perimetro;
-        }
+
         /// <summary>
-        /// Obtiene el area de un <see cref="Circulo"/>
+        /// Obtiene el perimetro de un <see cref="Circulo"/>
         /// </summary>
-        /// <param name="pCirculo">Circulo para el cual se desea conocer su area</param>
-        /// <returns>Area del Circulo</returns>
-        public double CalcularAreaCirculo(Circulo pCirculo)
+        /// <param name="pX">Coordenada X del centro </param>
+        /// <param name="pY">Coordenada Y del centro </param>
+        /// <param name="pRadio">Radio del Circulo</param>
+        /// <returns>Perimetro del Circulo</returns>
+        public double CalcularPerimetroCirculo(double pX, double pY, double pRadio)
         {
-            return pCirculo.Area;
+            Punto lPunto = new Punto(pX, pY);
+            Circulo lCirculo = new Circulo(lPunto, pRadio);
+            return lCirculo.Perimetro;
+        }
+
+        /// <summary>
+        /// Obtiene el Area de un <see cref="Circulo"/>
+        /// </summary>
+        /// <param name="pX">Coordenada X del centro </param>
+        /// <param name="pY">Coordenada Y del centro </param>
+        /// <param name="pRadio">Radio del Circulo</param>
+        /// <returns>Area del Circulo</returns>
+        public double CalcularAreaCirculo(double pX, double pY, double pRadio)
+        {
+            Punto lPunto = new Punto(pX, pY);
+            Circulo lCirculo = new Circulo(lPunto, pRadio);
+            return lCirculo.Area;
         }
 	}
 }
