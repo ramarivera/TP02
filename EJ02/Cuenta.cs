@@ -71,15 +71,13 @@ namespace EJ02
         /// <returns>Devuelve un booleado que indica si se pudo debitar el saldo o no</returns>
 		public bool DebitarSaldo (double pSaldo )
 		{
-			if (this.Saldo < pSaldo)
+            bool lResultado = false;
+			if (this.Saldo >= pSaldo)
 			{
-				return false;
+				this.Saldo -= pSaldo;
+                lResultado = true;
 			}
-			else
-			{
-                this.Saldo -= pSaldo;
-				return true;
-			}
+            return lResultado;
 		}
     }
 }
