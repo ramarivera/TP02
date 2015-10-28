@@ -42,13 +42,11 @@ namespace EJ03
         }
         static void Main(string[] args)
         {
-            Garage garage= new Garage();
             cFachada = new Facade();
             string marca, modelo, descripcion;
             int cv;
             double precio;
-            Auto auto;
-            bool ocupado = false;
+            String[] datosAuto = new String[5];
            
             bool seguir = true;
             while (seguir)
@@ -72,8 +70,8 @@ namespace EJ03
                             modelo = Console.ReadLine();
                             Console.Write("\t Cv: ");
                             cv = (int.Parse(Console.ReadLine()));
-                            ocupado = cFachada.AgregarAuto(marca, modelo, cv);
-                            if (ocupado)
+                            bool agregado = cFachada.AgregarAuto(marca, modelo, cv);
+                            if (agregado)
                             {
                                 Console.WriteLine("Auto ingresado correctamente");
                             }
@@ -86,52 +84,42 @@ namespace EJ03
                             break;
                         }
                     case 2:
+                        SeparadorOperatoria();
+                        Console.WriteLine("Ingrese la informacion de la averia");
+                        Console.Write("\t Precio: ");
+                        precio = (double.Parse(Console.ReadLine()));
+                        Console.Write("\t Descripcion: ");
+                        descripcion = Console.ReadLine();
+                        bool agregada = cFachada.AgregarAveria(precio,descripcion);
+                        if (agregada)
                         {
-                            if (!ocupado)
-                            {
-                                Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
-                                Console.ReadKey();
-                                Console.WriteLine();
-                            }
-                            else
-                            {
-                                SeparadorOperatoria();
-                                Console.WriteLine("Ingrese la informacion de la averia");
-                                Console.Write("\t Precio: ");
-                                precio = (double.Parse(Console.ReadLine()));
-                                Console.Write("\t Descripcion: ");
-                                descripcion = Console.ReadLine();
-                                cFachada.AgregarAveria(precio,descripcion);
-                                Console.WriteLine("Averia ingresada correctamente");
-                                Console.ReadKey();
-                                Console.WriteLine();
-                            }
+                            Console.WriteLine("Averia ingresada correctamente");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
+                        }
+                        Console.ReadKey();
+                        Console.WriteLine();   
                         break;
-                        }
-                    case 3:
+                    case 3:                              
+                        SeparadorOperatoria();
+                        datosAuto = cFachada.GetDatosAuto();
+                        if (datosAuto[0] != null)
                         {
-                           if (!ocupado)
-                            {
-                                Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
-                                Console.ReadKey();
-                                Console.WriteLine();
-                            }
-                           else
-                           {
-                               SeparadorOperatoria();
-                               auto = cFachada.MostrarAuto();
-                               Console.WriteLine("Marca: {0}",auto.Marca);
-                               Console.WriteLine("Modelo: {0}",auto.Modelo);
-                               Console.WriteLine("Litros de aceite: {0}",auto.Motor.LitrosAceite);
-                               Console.WriteLine("Cv: {0}",auto.Motor.CV);
-                               Console.WriteLine("Total reparacion: ${0}", auto.PrecioAverias);
-                               ocupado = false;
-                               garage.QuitarAuto(auto);
-                               Console.ReadKey();
-                               Console.WriteLine();
-                           }
-                           break;
+                            Console.WriteLine("Marca: {0}", datosAuto[0]);
+                            Console.WriteLine("Modelo: {0}", datosAuto[1]);
+                            Console.WriteLine("Litros de aceite: {0}", datosAuto[2]);
+                            Console.WriteLine("Cv: {0}", datosAuto[3]);
+                            Console.WriteLine("Total reparacion: ${0}", datosAuto[4]);
                         }
+                        else
+                        {
+                            Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
+                        }
+                        Console.ReadKey();
+                        Console.WriteLine();
+                        break;
                     case 0:
                         seguir = false;
                         break;

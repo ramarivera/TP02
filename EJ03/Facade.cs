@@ -22,9 +22,16 @@ namespace EJ03
         /// <param name="pModelo">Modelo del auto</param>
         /// <param name="pCv">Caballos vapor del auto</param>
         /// <returns>Devuelve el auto que se ha creado</returns>
+        
+        public Facade()
+        {
+            this.iGarage = new Garage();
+        }
         public bool AgregarAuto(string pMarca, string pModelo, int pCv)
         {
-            return iGarage.AceptarAuto(new Auto(pMarca, pModelo, pCv));
+            Auto auto = new Auto(pMarca, pModelo, pCv);
+            return (this.iGarage.AceptarAuto(auto));
+            //return this.iGarage.AceptarAuto(new Auto(pMarca, pModelo, pCv));
         }
 
         /// <summary>
@@ -33,19 +40,26 @@ namespace EJ03
         /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <param name="pPrecioAveria">Monto de la averia a agregar</param>
         /// <param name="pDescripcionAveria">Descripcion de la averia a agregar</param>
-        public void AgregarAveria(double pPrecioAveria, string pDescripcionAveria)
+        public bool AgregarAveria(double pPrecioAveria, string pDescripcionAveria)
         {
-            iGarage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
+            return this.iGarage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
         }
 
         /// <summary>
-        /// Permite mostrar la informacion del auto que esta en el garage
+        /// Permite obtener la informacion del auto que esta en el garage
         /// </summary>
         /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <returns>Devuelve la instancia del auto que esta en el garage</returns>
-        public Auto MostrarAuto()
+        public String[] GetDatosAuto()
         {
-            return iGarage.Auto;
+            String[] datos = new String[5];
+            Auto lAuto = this.iGarage.Auto;
+            datos[0] = lAuto.Marca;
+            datos[1] = lAuto.Modelo;
+            datos[2] = (lAuto.Motor.LitrosAceite).ToString();
+            datos[3] = (lAuto.Motor.CV).ToString();
+            datos[4] = (lAuto.PrecioAverias).ToString();
+            return datos;
         }
     }
 }

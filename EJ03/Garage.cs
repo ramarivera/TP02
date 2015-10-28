@@ -25,9 +25,13 @@ namespace EJ03
         /// </summary>
         public Auto Auto
         {
-            get { Auto aux = this.iAuto;
+            get
+            {
+                Auto aux = this.iAuto;
                 this.iAuto = null;
-                return aux; }
+                return aux;
+            }
+                 
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace EJ03
         public bool AceptarAuto(Auto pAuto)
         {
             bool aceptado = false;
-            if (this.Auto == null)
+            if (this.iAuto == null)
             {
                 this.iAuto = pAuto;
                 aceptado = true;
@@ -60,27 +64,21 @@ namespace EJ03
         /// </summary>
         /// <param name="pPrecioAveria">Monto de la nueva averia</param>
         /// <param name="pDescripcionAveria">Descripcion de la nueva averia</param>
-        public void IncorporarAveria(double pPrecioAveria, string pDescripcionAveria)
+        public bool IncorporarAveria(double pPrecioAveria, string pDescripcionAveria)
         {
-            this.Auto.SumarAveria(pPrecioAveria);
-            string averia = (pDescripcionAveria.Trim()).ToUpper();
-            if (averia == "ACEITE")
+            bool incorporada = false;
+            if (this.iAuto != null)
             {
-                this.Auto.Motor.AgregarLitrosAceite(10);
+                this.iAuto.SumarAveria(pPrecioAveria);
+                string averia = (pDescripcionAveria.Trim()).ToUpper();
+                if (averia == "ACEITE")
+                {
+                    this.iAuto.Motor.AgregarLitrosAceite(10);
+                }
+                incorporada = true;
             }
+            return incorporada;
+            
         }
-
-
-
-        /// <summary>
-        /// Quita el auto que se encuentra en el garage
-        /// </summary>
-        /// <param name="pAuto">Auto a quitar del garage</param>
-        public void QuitarAuto(Auto pAuto)
-        {
-            this.Auto = null;
-        }
-
-
     }
 }
