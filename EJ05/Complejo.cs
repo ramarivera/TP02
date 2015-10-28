@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace EJ05
 {
-	/// <summary>
-	/// Representa un numero complejo, con sus correspondientes operaciones.
-	/// Fuente de la Matematica de la clase: https://es.wikipedia.org/wiki/N%C3%BAmero_complejo
-	/// Provee tambien sobrecarga de operadores aritmeticos, de igualdad (== y !=)
-	/// </summary>
+    /// <summary>
+    /// Representa un numero complejo, con sus correspondientes operaciones.
+    /// Fuente de la Matematica de la clase: https://es.wikipedia.org/wiki/N%C3%BAmero_complejo
+    /// Provee tambien sobrecarga de operadores aritmeticos, de igualdad (== y !=)
+    /// </summary>
     /// <remarks>
     /// Se definen los operadores relaciones como parte del ejercicio, aunque los numeros complejos no tengan orden 
     /// </remarks>
-	class Complejo : IEquatable<Complejo>
+    class Complejo : IEquatable<Complejo>
     {
         #region Complejo - Campos
         /// <summary>
@@ -22,10 +22,10 @@ namespace EJ05
         /// </summary>
         private readonly double iReal;
 
-		/// <summary>
-		/// Componente imaginario del numero complejo z
-		/// </summary>
-		private readonly double iImaginario;
+        /// <summary>
+        /// Componente imaginario del numero complejo z
+        /// </summary>
+        private readonly double iImaginario;
 
         #endregion
         #region Complejo - Constructores
@@ -186,7 +186,7 @@ namespace EJ05
         /// <returns>Cadena de caracteres que representa la instancia</returns>
         public override string ToString()
         {
-            return String.Format("Componente Real: {0}\tComponente Imaginaria: {1}\tMagnitud: {2}",this.Real,this.Imaginario,this.Magnitud);
+            return String.Format("Componente Real: {0}\tComponente Imaginaria: {1}\tMagnitud: {2}", this.Real, this.Imaginario, this.Magnitud);
         }
 
         #endregion
@@ -217,8 +217,100 @@ namespace EJ05
             // Factorizado en funcion de EsIgual(Complejo pOtroComplejo)
             return (this.EsIgual(new Complejo(pReal, pImaginario)));
         }
-        #endregion
 
+        /// <summary>
+        /// Implementa la logica de es mayor de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es mayor al numero parametro del metodo</returns>
+        public bool EsMayor(Complejo pOtroComplejo)
+        {
+            return this.Magnitud > pOtroComplejo.Magnitud;
+        }
+
+        /// <summary>
+        /// Implementa la logica de es mayor o igual de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es mayor o igual al numero parametro del metodo</returns>
+		public bool EsMayorIgual(Complejo pOtroComplejo)
+        {
+            return ((this == pOtroComplejo) || (this.EsMayor(pOtroComplejo)));
+        }
+
+        /// <summary>
+        /// Implementa la logica de es menor de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es menor al numero parametro del metodo</returns>
+		public bool EsMenor(Complejo pOtroComplejo)
+        {
+            return !(this.EsMayorIgual(pOtroComplejo));
+        }
+
+        /// <summary>
+        /// Implementa la logica de es menor o igual de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es menor o igual al numero parametro del metodo</returns>
+		public bool EsMenorIgual(Complejo pOtroComplejo)
+        {
+            return !(this.EsMayor(pOtroComplejo));
+        }
+
+        #endregion
+        #region Complejo - Aritmetica
+        /// <summary>
+        /// Implementa la logica de suma de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve el resultado de la suma de dos numeros complejos</returns>
+		public Complejo Sumar(Complejo pOtroComplejo)
+        {
+            return new Complejo((this.Real + pOtroComplejo.Real), (this.Imaginario + pOtroComplejo.Imaginario));
+        }
+
+        /// <summary>
+        /// Implementa la logica de resta de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve el resultado de la resta de dos numeros complejos</returns>
+		public Complejo Restar(Complejo pOtroComplejo)
+        {
+            return new Complejo((this.Real - pOtroComplejo.Real), (this.Imaginario - pOtroComplejo.Imaginario));
+        }
+
+        /// <summary>
+        /// Implementa la logica del producto de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo</param>
+        /// <returns>Devuelve el resultado del producto de dos numeros complejos</returns>
+		public Complejo MultiplicarPor(Complejo pOtroComplejo)
+        {
+            double a, b, c, d;
+            a = this.Real;
+            b = this.Imaginario;
+            c = pOtroComplejo.Real;
+            d = pOtroComplejo.Imaginario;
+            return new Complejo((a * c - b * d), (a * d + b * c));
+        }
+
+        /// <summary>
+        /// Implementa la logica de division de la clase
+        /// </summary>
+        /// <param name="pOtroComplejo">Un numero complejo, divisor</param>
+        /// <returns>Devuelve el resultado de la division de un numeros complejo sobre el divisor</returns>
+		public Complejo DividirPor(Complejo pOtroComplejo)
+        {
+            double a, b, c, d;
+            a = this.Real;
+            b = this.Imaginario;
+            c = pOtroComplejo.Real;
+            d = pOtroComplejo.Imaginario;
+            return new Complejo(((a * c + b * d) / (c * c + d * d)), ((b * c - a * d) / (c * c + d * d)));
+        }
+
+        #endregion
         #region Complejo - Operadores
         /// <summary>
         /// Sobrecarga del operador ==
@@ -242,9 +334,51 @@ namespace EJ05
             // Complemento del operador  == 
             return !(pA == pB);
         }
+
+        /// <summary>
+        /// Sobrecarga del operador >
+        /// </summary>
+        /// <param name="pA">Complejo A </param>
+        /// <param name="pB">Complejo B</param>
+        /// <returns>Verdadero si Complejo A > Complejo B</returns>
+        public static bool operator >(Complejo pA, Complejo pB)
+        {
+            return pA.EsMayor(pB);
+        }
+
+        /// <summary>
+        /// Sobrecarga del operador <
+        /// </summary>
+        /// <param name="pA">Complejo A </param>
+        /// <param name="pB">Complejo B</param>
+        /// <returns>Verdadero si Complejo A < Complejo B</returns>
+		public static bool operator <(Complejo pA, Complejo pB)
+        {
+            return pA.EsMenor(pB);
+        }
+
+        /// <summary>
+        /// Sobrecarga del operador >=
+        /// </summary>
+        /// <param name="pA">Complejo A </param>
+        /// <param name="pB">Complejo B</param>
+        /// <returns>Verdadero si Complejo A >= Complejo B</returns>
+		public static bool operator >=(Complejo pA, Complejo pB)
+        {
+            return pA.EsMayorIgual(pB);
+        }
+
+        /// <summary>
+        /// Sobrecarga del operador <=
+        /// </summary>
+        /// <param name="pA">Complejo A </param>
+        /// <param name="pB">Complejo B</param>
+        /// <returns>Verdadero si Complejo A <= Complejo B</returns>
+		public static bool operator <=(Complejo pA, Complejo pB)
+        {
+            return pA.EsMenorIgual(pB);
+        }
         #endregion
-
-
         #region Complejo - Varios
         /// <summary>
         /// Implementacion propia del metodo Atan2
@@ -260,155 +394,5 @@ namespace EJ05
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-       
-
-		
-
-        
-
-        /// <summary>
-        /// Implementa la logica de suma de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve el resultado de la suma de dos numeros complejos</returns>
-		public Complejo Sumar (Complejo pOtroComplejo)
-		{
-			return new Complejo((this.Real + pOtroComplejo.Real), (this.Imaginario + pOtroComplejo.Imaginario));
-		}
-
-        /// <summary>
-        /// Implementa la logica de resta de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve el resultado de la resta de dos numeros complejos</returns>
-		public Complejo Restar(Complejo pOtroComplejo)
-		{
-			return new Complejo((this.Real - pOtroComplejo.Real), (this.Imaginario - pOtroComplejo.Imaginario));
-		}
-
-        /// <summary>
-        /// Implementa la logica del producto de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve el resultado del producto de dos numeros complejos</returns>
-		public Complejo MultiplicarPor(Complejo pOtroComplejo)
-		{
-			double a, b, c, d;
-			a = this.Real;
-			b = this.Imaginario;
-			c = pOtroComplejo.Real;
-			d = pOtroComplejo.Imaginario;
-			return  new Complejo((a*c-b*d),(a*d+b*c));
-		}
-
-        /// <summary>
-        /// Implementa la logica de division de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo, divisor</param>
-        /// <returns>Devuelve el resultado de la division de un numeros complejo sobre el divisor</returns>
-		public Complejo DividirPor(Complejo pOtroComplejo)
-		{
-			double a, b, c, d;
-			a = this.Real;
-			b = this.Imaginario;
-			c = pOtroComplejo.Real;
-			d = pOtroComplejo.Imaginario;
-			return new Complejo(((a * c + b * d) / (c * c + d * d)), ((b * c - a * d) / (c * c + d * d)));
-		}
-
-        /// <summary>
-        /// Implementa la logica de es mayor de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es mayor al numero parametro del metodo</returns>
-		public bool EsMayor (Complejo pOtroComplejo)
-		{
-			return this.Magnitud > pOtroComplejo.Magnitud;
-		}
-
-        /// <summary>
-        /// Implementa la logica de es mayor o igual de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es mayor o igual al numero parametro del metodo</returns>
-		public bool EsMayorIgual(Complejo pOtroComplejo)
-		{
-			return ((this == pOtroComplejo) || (this.EsMayor(pOtroComplejo)));
-		}
-
-        /// <summary>
-        /// Implementa la logica de es menor de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es menor al numero parametro del metodo</returns>
-		public bool EsMenor(Complejo pOtroComplejo)
-		{
-			return !(this.EsMayorIgual(pOtroComplejo));
-		}
-
-        /// <summary>
-        /// Implementa la logica de es menor o igual de la clase
-        /// </summary>
-        /// <param name="pOtroComplejo">Un numero complejo</param>
-        /// <returns>Devuelve un booleano que es verdadero si el numero que llama al metodo es menor o igual al numero parametro del metodo</returns>
-		public bool EsMenorIgual(Complejo pOtroComplejo)
-		{
-			return !(this.EsMayor(pOtroComplejo));
-		}
-
-        /// <summary>
-        /// Sobrecarga del operador >
-        /// </summary>
-        /// <param name="pA">Complejo A </param>
-        /// <param name="pB">Complejo B</param>
-        /// <returns>Verdadero si Complejo A > Complejo B</returns>
-		public static bool operator >(Complejo pA, Complejo pB)
-		{
-			return pA.EsMayor(pB);
-		}
-
-        /// <summary>
-        /// Sobrecarga del operador <
-        /// </summary>
-        /// <param name="pA">Complejo A </param>
-        /// <param name="pB">Complejo B</param>
-        /// <returns>Verdadero si Complejo A < Complejo B</returns>
-		public static bool operator <(Complejo pA, Complejo pB)
-		{
-			return pA.EsMenor(pB);
-		}
-
-        /// <summary>
-        /// Sobrecarga del operador >=
-        /// </summary>
-        /// <param name="pA">Complejo A </param>
-        /// <param name="pB">Complejo B</param>
-        /// <returns>Verdadero si Complejo A >= Complejo B</returns>
-		public static bool operator >=(Complejo pA, Complejo pB)
-		{
-			return pA.EsMayorIgual(pB);
-		}
-
-        /// <summary>
-        /// Sobrecarga del operador <=
-        /// </summary>
-        /// <param name="pA">Complejo A </param>
-        /// <param name="pB">Complejo B</param>
-        /// <returns>Verdadero si Complejo A <= Complejo B</returns>
-		public static bool operator <=(Complejo pA, Complejo pB)
-		{
-			return pA.EsMenorIgual(pB);
-		}
-
-
-	}
+    }
 }
