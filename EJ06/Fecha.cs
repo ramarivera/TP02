@@ -18,52 +18,64 @@ namespace EJ06
 		/// Numero de dia en formato Gregoriano, sus valores permitidos estan entre 1 y 31, dependiendo del mes.
 		/// </summary>
 		private readonly int iDia;
+
 		/// <summary>
 		/// Numero de mes en formato Gregoriano, sus valores permitidos estan entre 1 y 12.
 		/// </summary>
 		private readonly int  iMes;
+
 		/// <summary>
 		/// Numero de Año en formato Gregoriano, sus valores van desde 1582 hasta 2582
 		/// </summary>
 		private readonly int  iAño;
+
 		/// <summary>
 		/// Numero de Dias en formato Juliano.
 		/// </summary>
 		private readonly long iDiaJuliano;
+
 		#endregion
 		#region Fecha - Constantes
 		/// <summary>
 		/// Array utilizado para persistir el nombre de los dias de la semana. Esta forma de guardarlos permitiria realizar una localizacion regional de  la clase mas facilmente
 		/// </summary>
 		private static readonly string[] NOMBRES_DIAS = { "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" };
-		/// <summary>
-		/// Array utilizado para persistir el nombre de los Meses del Año. Esta forma de guardarlos permitiria realizar una localizacion regional de  la clase mas facilmente
-		/// </summary>
-		private static readonly string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
-		/// <summary>
+
+        /// <summary>
+        /// Array utilizado para persistir el nombre de los Meses del Año. Esta forma de guardarlos permitiria realizar una localizacion regional de  la clase mas facilmente
+        /// </summary>
+        private static readonly string[] NOMBRES_MESES = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+		
+        /// <summary>
 		/// Almacena los dias de cada mes, para el caso de años no bisiestos
 		/// </summary>
 		private static readonly int[] DIAS_MESES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-		/// <summary>
+		
+        /// <summary>
 		/// Almacena coeficientes para cada mes, utilizado para el calculo del nombre del dia de la semana para una fecha
 		/// </summary>
 		private static readonly int[] COEFICIENTES_MESES = { 6, 2, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
-		/// <summary>
+		
+        /// <summary>
 		/// Numero Minimo permitido de año. Entonces la minima fecha instanciable es 01/01/1990
 		/// </summary>
 		private static readonly int AÑO_MINIMO = 1700;
-		/// <summary>
+		
+        /// <summary>
 		/// Numero maximo permitido de año. Entonces la maxima fecha instanciable es 31/12/2199
 		/// </summary>
 		private static readonly int AÑO_MAXIMO = 2582;
-		/// <summary>
+		
+        /// <summary>
 		/// Limite inferior de la fecha en formato Juliana, equivalente al 01/01/1700
 		/// </summary>
 		private static readonly long BASE_JULIANA = 2341973;
-		/// <summary>
+		
+        /// <summary>
 		/// Limite Superior de la fecha en formato Juliana, equivalente al 31/12/2299
 		/// </summary>
 		private static readonly long TOPE_JULIANA = 2561117;
+
 		#endregion
 		#region Fecha - Constructores
 		/// <summary>
@@ -94,7 +106,6 @@ namespace EJ06
 			if (pDia < 1)
 			{
 				throw new System.ArgumentOutOfRangeException("pMes", pMes, "El valor minimo de dia es 01");
-
 			}
 
 			long diaJuliano = Fecha.ToJuliano(pDia, pMes, pAño);
@@ -103,13 +114,14 @@ namespace EJ06
 			this.iMes = pMes;
 			this.iAño = pAño;
 			this.iDiaJuliano = diaJuliano;
-
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Constructor por defecto de Instancia, devuelve el 01/01/1582
 		/// </summary>
 		public Fecha() : this(BASE_JULIANA) { }
-		/// <summary>
+		
+        /// <summary>
 		/// Constructor de instancia, se ingresa el numero de dia del calendario Juliano
 		/// </summary>
 		/// <param name="pDia">Cantidad de dias</param>
@@ -145,56 +157,60 @@ namespace EJ06
 		{
 			get { return this.iDia; }
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Propiedad Mes, solo lectura
 		/// </summary>
 		public int Mes
 		{
 			get { return this.iMes; }
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Propiedad Año, solo lectura
 		/// </summary>
 		public int Año
 		{
 			get	{ return this.iAño; }
 		}
-		/// <summary>
-		/// Propiedad DiaJuliano, solo lectura
-		/// </summary>
-		public long DiaJuliano
-		{
-			get { return this.iDiaJuliano; }
-		}
-		/// <summary>
+		
+        public long DiaJuliano
+        {
+            get { return this.iDiaJuliano; }
+        }
+        /// <summary>
 		/// Propiedad Bisiesto, nos permite saber si el año de la instancia es bisiesto
 		/// </summary>
 		/// <returns>Verdadero si el año de la instancia es bisiesto</returns>
 		public bool Bisiesto
 		{
-			get { return Fecha.EsBisiesto(Año); }
+			get { return Fecha.EsBisiesto(this.Año); }
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Propiedad DiasMesAñoActual, Nos permite conocer el numero de dias que posee el mes y el año de la instancia 
 		/// </summary>
 		public int DiasMesAñoActual
 		{
-			get { return DiasDelMesAño(Mes, Año); }
+			get { return Fecha.DiasDelMesAño(this.Mes, this.Año); }
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Propiedad DiaSemanaActual, Nos permite conocer el nombre del dia de la semana de la instancia
 		/// </summary>
 		public String DiaSemanaActual
 		{
-			get { return Fecha.DiaSemanaFecha(Dia, Mes, Año); }
+			get { return Fecha.DiaSemanaFecha(this.Dia, this.Mes, this.Año); }
 		}
+
 		/// <summary>
 		/// Pripiedad NombreMesActual, nos permite conocer el nombre del mes de la instancia
 		/// </summary>
 		public String NombreMesActual
 		{
-			get { return Fecha.NombreMes(Mes); }
+			get { return Fecha.NombreMes(this.Mes); }
 		}
+
 		#endregion
 		#region Fecha - Metodos Estaticos 
 		/// <summary>
@@ -208,6 +224,7 @@ namespace EJ06
 				O          Es divisible por 400, entonces es bisiesto */
 			return (pAño % 4 == 0 && pAño % 100 != 0 || pAño % 400 == 0);
 		}
+
 		/// <summary>
 		/// Permite determinar la cantidad de dias que tiene un mes en un año determinado
 		/// </summary>
@@ -219,6 +236,7 @@ namespace EJ06
 			// Si el mes es febrero(2) y el Año es bisiesto, los dias son 29; si no se consulta en el array de constantes 
 			return (pMes == 2 && Fecha.EsBisiesto(pAño)) ? 29 : DIAS_MESES[pMes - 1]; 
         }
+
 		/// <summary>
 		/// Determina el nombre del dia de la semana de una fecha
 		/// </summary>
@@ -276,6 +294,7 @@ namespace EJ06
 			//A la suma final le hallamos modulo 7 y el resultado final será la posicion del arreglo NOMBRES_DIAS correspondiente al dia de la fecha
 			return NOMBRES_DIAS[resultado % 7];
 		}
+
 		/// <summary>
 		/// Devuelve el nombre del mes para el numero correspondiente
 		/// </summary>
@@ -285,6 +304,7 @@ namespace EJ06
 		{
 			return NOMBRES_MESES[pMes - 1];
 		}
+
 		/// <summary>
 		/// Convierte una fecha del calendario Gregoriano al Juliano
 		/// </summary>
@@ -306,6 +326,7 @@ namespace EJ06
 
 			return dia + (153 * mes - 457) / 5 + 365 * año + (año / 4) - (año / 100) + (año / 400) + 1721119;
 		}
+
 		/// <summary>
 		/// Convierte una fecha del calendario Juliano a Gregoriano
 		/// </summary>
@@ -328,6 +349,7 @@ namespace EJ06
 
 			return resultado;
 		}
+
 		#endregion
 		#region Fecha - Aritmetica de Fechas
 		/// <summary>
@@ -343,8 +365,10 @@ namespace EJ06
 				throw new System.ArgumentOutOfRangeException("pDias", pDias, "El numero de dias a agregar debe ser mayor igual a 1");
 			}
 
-			return new Fecha(DiaJuliano + pDias);
+            // Retorno una nueva fecha cuyos dias julianos sean la suma de pDias y DiaJuliano, de manera de simplificar la operacion
+			return new Fecha(this.DiaJuliano + pDias);
 		}
+
 		/// <summary>
 		/// Permite agregar meses a una instancia de Fecha.
 		/// </summary>
@@ -370,6 +394,7 @@ namespace EJ06
 				return this.AgregarDias(dias);
 			}
 		}
+
 		/// <summary>
 		/// Permite agregar años a una instancia de Fecha. 
 		/// </summary>
@@ -384,14 +409,16 @@ namespace EJ06
 			}
 
 			long acuDias = 0;
-
+            
+            //  Realizo un ciclo por cada año, sumando la cantidad de dias correspondientes a cada uno
 			for (int i = Año; i < Año + pAño; i++)
 			{
 				acuDias += Fecha.EsBisiesto(i) ? 366 : 365;		// Si el año es bisiesto, sumo 366 dias
 			}
 
-			return new Fecha(DiaJuliano + acuDias);
+			return new Fecha(this.DiaJuliano + acuDias);
 		}
+
 		/// <summary>
 		/// Permite calcular la diferencia en dias entre la instancia y pOtraFecha
 		/// </summary>
@@ -401,6 +428,7 @@ namespace EJ06
 		{
 			return Math.Abs((int)(DiaJuliano - pOtraFecha.DiaJuliano));		
 		}
+
 		#endregion
 		#region Fecha - Metodos Sobrecargados (Equals, ToString, GetHashCode)
 		/// <summary>
@@ -439,6 +467,7 @@ namespace EJ06
 			// Aplico logica particular, casteando previamente a Fecha
 			return (this.EsIgual((Fecha)obj));
 		}
+
 		/// <summary>
 		/// Metodo Equals() para objetos de la clase Fecha
 		/// </summary>
@@ -461,6 +490,7 @@ namespace EJ06
 			// Aplico logica particular
 			return (this.EsIgual(pFecha));
 		}
+
 		/// <summary>
 		/// Sobrecarga del metodo GetHashCode().
 		/// Mas informacion: http://www.loganfranken.com/blog/692/overriding-equals-in-c-part-2/
@@ -478,14 +508,16 @@ namespace EJ06
 
 				int hash = HashingBase;
 				//Utilizamos cada propiedad de nuestro objeto, si dicha propiedad es nula, el resultado es 0
-				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Dia) ? Dia.GetHashCode() : 0);
+				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, this.Dia) ? this.Dia.GetHashCode() : 0);
 				//Sucesivamente vamos acumulando los resultados
-				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Mes) ? Mes.GetHashCode() : 0);
+				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, this.Mes) ? this.Mes.GetHashCode() : 0);
 				//Por ultimo en vez de usar +, usamos el operador XOR ^ para obtener una implementacion mas performante
-				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, Año) ? Año.GetHashCode() : 0);
-				return hash;
+				hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, this.Año) ? this.Año.GetHashCode() : 0);
+
+                return hash;
 			}
 		}
+
 		#endregion
 		#region Fecha - Metodos de Comparacion
 		/// <summary>
@@ -496,8 +528,9 @@ namespace EJ06
 		/// <returns>Verdadero si los valores de Dia, Mes y Año coinciden</returns>
 		private bool EsIgual(Fecha pOtraFecha)
 		{
-			return (DiaJuliano==pOtraFecha.DiaJuliano);
+			return (this.DiaJuliano ==pOtraFecha.DiaJuliano);
 		}
+
 		/// <summary>
 		/// Implementa la logica para verificar si una fecha es mayor que otra
 		/// Metodo base (junto con EsIgual) de todos los otros metodos de comparacion y operadores relacionales
@@ -506,8 +539,9 @@ namespace EJ06
 		/// <returns></returns>
 		private bool EsMayor(Fecha pOtraFecha)
 		{
-			return DiaJuliano > pOtraFecha.DiaJuliano;
+			return this.DiaJuliano > pOtraFecha.DiaJuliano;
 		}
+
 		/// <summary>
 		/// Implementa la logica para verificar si una fecha es menor que otra
 		/// </summary>
@@ -517,6 +551,7 @@ namespace EJ06
 		{
 			return !(this.EsMayor(pOtraFecha) || this.EsIgual(pOtraFecha));
 		}
+
 		/// <summary>
 		/// Implementa la logica para verificar si una fecha es mayor o igual que otra
 		/// </summary>
@@ -526,6 +561,7 @@ namespace EJ06
 		{
 			return (this.EsIgual(pOtraFecha) || this.EsMayor(pOtraFecha));
 		}
+
 		/// <summary>
 		/// Implementa la logica para verificar si una fecha es menor o igual que otra
 		/// </summary>
@@ -535,6 +571,7 @@ namespace EJ06
 		{
 			return !this.EsMayor(pOtraFecha);
 		}
+
 		#endregion
 		#region Fecha - Operadores
 		/// <summary>
@@ -547,6 +584,7 @@ namespace EJ06
 		{
 			return pA.EsIgual(pB);
 		}
+
 		/// <summary>
 		/// Operador de Desigualdad
 		/// </summary>
@@ -557,6 +595,7 @@ namespace EJ06
 		{
 			return !(pA == pB);
 		}
+
 		/// <summary>
 		/// Operador Mayor
 		/// </summary>
@@ -567,6 +606,7 @@ namespace EJ06
 		{
 			return pA.EsMayor(pB);
 		}
+
 		/// <summary>
 		/// Operador Menor
 		/// </summary>
@@ -577,6 +617,7 @@ namespace EJ06
 		{
 			return pA.EsMenor(pB);
 		}
+
 		/// <summary>
 		/// Operador Mayor-Igual
 		/// </summary>
@@ -587,6 +628,7 @@ namespace EJ06
 		{
 			return pA.EsMayorIgual(pB);
 		}
+
 		/// <summary>
 		/// Operador Menor-Igual
 		/// </summary>
@@ -597,6 +639,7 @@ namespace EJ06
 		{
 			return pA.EsMenorIgual(pB);
 		}
+
 		/// <summary>
 		/// Operador Suma de Dias
 		/// </summary>
@@ -607,6 +650,7 @@ namespace EJ06
 		{
 			return pA.AgregarDias(iB);
 		}
+
 		/// <summary>
 		/// Operador Suma de Dias
 		/// </summary>
@@ -617,6 +661,7 @@ namespace EJ06
 		{
 			return pA + iB;
 		}
+
 		/// <summary>
 		/// Operador diferencia de Fechas
 		/// </summary>
@@ -627,6 +672,7 @@ namespace EJ06
 		{
 			return pA.RestarFecha(pB);
 		}
+
 		#endregion
 	}
 }
