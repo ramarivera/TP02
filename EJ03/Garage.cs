@@ -25,8 +25,9 @@ namespace EJ03
         /// </summary>
         public Auto Auto
         {
-            get { return this.iAuto; }
-            private set { this.iAuto = value; }
+            get { Auto aux = this.iAuto;
+                this.iAuto = null;
+                return aux; }
         }
 
         /// <summary>
@@ -45,15 +46,13 @@ namespace EJ03
         /// <returns>Devuelve un booleano que indica si se acepto el auto o no </returns>
         public bool AceptarAuto(Auto pAuto)
         {
-            if (this.NoHayAuto())
+            bool aceptado = false;
+            if (this.Auto == null)
             {
-                Auto = pAuto;
-                return true;
+                this.iAuto = pAuto;
+                aceptado = true;
             }
-            else
-            {
-                return false;
-            }
+            return aceptado;
         }
 
         /// <summary>
@@ -64,27 +63,14 @@ namespace EJ03
         public void IncorporarAveria(double pPrecioAveria, string pDescripcionAveria)
         {
             this.Auto.SumarAveria(pPrecioAveria);
-            if (pDescripcionAveria == "aceite")
+            string averia = (pDescripcionAveria.Trim()).ToUpper();
+            if (averia == "ACEITE")
             {
                 this.Auto.Motor.AgregarLitrosAceite(10);
             }
         }
 
-        /// <summary>
-        /// Determina si actualmente hay un auto en el garage
-        /// </summary>
-        /// <returns>Devuelve un booleano que es verdadero si no hay un auto en el garage</returns>
-        public bool NoHayAuto()
-        {
-            if (this.Auto == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
 
         /// <summary>
         /// Quita el auto que se encuentra en el garage

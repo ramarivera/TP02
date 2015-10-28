@@ -47,16 +47,29 @@ namespace EJ01
             get { return this.iPunto3; }
             private set { this.iPunto3 = value; }
         }
-		/// <summary>
-		/// Propiedad Area, Recupera el area del triangulo
+
+        /// <summary>
+		/// Constructor de la Clase
 		/// </summary>
-		public double Area
+		/// <param name="pPunto1">Primer Punto</param>
+		/// <param name="pPunto2">Segundo Punto</param>
+		/// <param name="pPunto3">Tercer Punto</param>
+		public Triangulo(Punto pPunto1, Punto pPunto2, Punto pPunto3)
+        {
+            this.Punto1 = pPunto1;
+            this.Punto2 = pPunto2;
+            this.Punto3 = pPunto3;
+        }
+        /// <summary>
+        /// Propiedad Area, Recupera el area del triangulo
+        /// </summary>
+        public double Area
 		{
 			get {
-				double lado1 = Punto1.CalcularDistanciaDesde(Punto2);
-				double lado2 = Punto2.CalcularDistanciaDesde(Punto3);
-				double lado3 = Punto3.CalcularDistanciaDesde(Punto1);
-				double perimetro = Perimetro;
+				double lado1 = this.Punto1.CalcularDistanciaDesde(Punto2);
+				double lado2 = this.Punto2.CalcularDistanciaDesde(Punto3);
+				double lado3 = this.Punto3.CalcularDistanciaDesde(Punto1);
+				double perimetro = this.Perimetro;
 
 				return (Math.Sqrt(perimetro * (perimetro - lado1) * (perimetro - lado2) * (perimetro - lado3)));
 				}
@@ -66,19 +79,7 @@ namespace EJ01
 		/// </summary>
 		public double Perimetro
 		{
-			get { return Punto1.CalcularDistanciaDesde(Punto2) + Punto2.CalcularDistanciaDesde(Punto3) + Punto3.CalcularDistanciaDesde(Punto1); }
-		}
-		/// <summary>
-		/// Constructor de la Clase
-		/// </summary>
-		/// <param name="pPunto1">Primer Punto</param>
-		/// <param name="pPunto2">Segundo Punto</param>
-		/// <param name="pPunto3">Tercer Punto</param>
-		public Triangulo (Punto pPunto1, Punto pPunto2, Punto pPunto3)
-		{
-			iPunto1 = pPunto1;
-			iPunto2 = pPunto2;
-			iPunto3 = pPunto3;
+			get { return this.Punto1.CalcularDistanciaDesde(Punto2) + this.Punto2.CalcularDistanciaDesde(Punto3) + this.Punto3.CalcularDistanciaDesde(Punto1); }
 		}
 	}
 }

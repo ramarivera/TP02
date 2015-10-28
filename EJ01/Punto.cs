@@ -12,23 +12,14 @@ namespace EJ01
     class Punto
     {
 		/// <summary>
-		/// Coordenada X del punto
+		/// Coordenada X del <see cref="Punto"/>
 		/// </summary>
 		private double iX;
 		/// <summary>
-		/// Coordenada Y del punto
+		/// Coordenada Y del <see cref="Punto"/>
 		/// </summary>
 		private double iY;
-		/// <summary>
-		/// Constructor de la clase
-		/// </summary>
-		/// <param name="pX">Coordenada X del punto</param>
-		/// <param name="pY">Coordenada Y del punto</param>
-		public Punto (double pX, double pY)
-		{
-			this.iX = pX;
-			this.iY = pY;
-		}
+		
 		/// <summary>
 		/// Propiedad Coordenada X, solo lectura
 		/// </summary>
@@ -45,12 +36,23 @@ namespace EJ01
 			get { return this.iY; }
             private set { this.iY = value; }
 		}
-		/// <summary>
-		/// Permite calcular la distancia entre el punto y otro punto
+
+        /// <summary>
+		/// Constructor de la clase
 		/// </summary>
-		/// <param name="pPunto">Punto hasta el cual se desea calcular la distancia</param>
-		/// <returns>Double, representa la distancia entra ambos puntos</returns>
-		public double CalcularDistanciaDesde (Punto pPunto)
+		/// <param name="pX">Coordenada X del punto</param>
+		/// <param name="pY">Coordenada Y del punto</param>
+		public Punto(double pX, double pY)
+        {
+            this.X = pX;
+            this.Y = pY;
+        }
+        /// <summary>
+        /// Permite calcular la distancia entre el punto y otro punto
+        /// </summary>
+        /// <param name="pPunto">Punto hasta el cual se desea calcular la distancia</param>
+        /// <returns>Double, representa la distancia entra ambos puntos</returns>
+        public double CalcularDistanciaDesde (Punto pPunto)
 		{
 			double disX, disY;
 			disX = (this.X - pPunto.X);

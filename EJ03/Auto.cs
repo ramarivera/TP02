@@ -72,9 +72,9 @@ namespace EJ03
         /// <param name="pCv">Caballos vapor del auto</param>
         public Auto(string pMarca, string pModelo, int pCv)
         {
-            Marca = pMarca;
-            Modelo = pModelo;
-            Motor = new Motor(pCv);
+            this.Marca = pMarca;
+            this.Modelo = pModelo;
+            this.Motor = new Motor(pCv);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace EJ03
         /// <param name="pPrecioAveria"></param>
         public void SumarAveria(double pPrecioAveria)
         {
-            PrecioAverias += pPrecioAveria;
+            this.PrecioAverias += pPrecioAveria;
         }
 
 

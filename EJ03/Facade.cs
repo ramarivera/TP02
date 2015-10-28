@@ -12,15 +12,19 @@ namespace EJ03
     class Facade
     {
         /// <summary>
+        /// Garage sobre el que la fachada realizará las operaciones
+        /// </summary>
+        private Garage iGarage;
+        /// <summary>
         /// Permite crear un nuevo auto
         /// </summary>
         /// <param name="pMarca">Marca del auto</param>
         /// <param name="pModelo">Modelo del auto</param>
         /// <param name="pCv">Caballos vapor del auto</param>
         /// <returns>Devuelve el auto que se ha creado</returns>
-        public Auto CrearAuto(string pMarca, string pModelo, int pCv)
+        public bool AgregarAuto(string pMarca, string pModelo, int pCv)
         {
-            return new Auto(pMarca,pModelo,pCv);
+            return iGarage.AceptarAuto(new Auto(pMarca, pModelo, pCv));
         }
 
         /// <summary>
@@ -29,9 +33,9 @@ namespace EJ03
         /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <param name="pPrecioAveria">Monto de la averia a agregar</param>
         /// <param name="pDescripcionAveria">Descripcion de la averia a agregar</param>
-        public void AgregarAveria(Garage pGarage,double pPrecioAveria, string pDescripcionAveria)
+        public void AgregarAveria(double pPrecioAveria, string pDescripcionAveria)
         {
-            pGarage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
+            iGarage.IncorporarAveria(pPrecioAveria, pDescripcionAveria);
         }
 
         /// <summary>
@@ -39,9 +43,9 @@ namespace EJ03
         /// </summary>
         /// <param name="pGarage">Garage donde se encuentra el auto</param>
         /// <returns>Devuelve la instancia del auto que esta en el garage</returns>
-        public Auto MostrarAuto(Garage pGarage)
+        public Auto MostrarAuto()
         {
-            return pGarage.Auto;
+            return iGarage.Auto;
         }
     }
 }
