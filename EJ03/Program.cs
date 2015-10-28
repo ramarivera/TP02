@@ -48,6 +48,7 @@ namespace EJ03
             int cv;
             double precio;
             Auto auto;
+            bool ocupado = false;
            
             bool seguir = true;
             while (seguir)
@@ -63,32 +64,30 @@ namespace EJ03
                 {
                     case 1:
                         {
-                            if (garage.NoHayAuto())
+                            SeparadorOperatoria();
+                            Console.WriteLine("Ingrese los datos del auto");
+                            Console.Write("\t Marca: ");
+                            marca = Console.ReadLine();
+                            Console.Write("\t Modelo: ");
+                            modelo = Console.ReadLine();
+                            Console.Write("\t Cv: ");
+                            cv = (int.Parse(Console.ReadLine()));
+                            ocupado = cFachada.AgregarAuto(marca, modelo, cv);
+                            if (ocupado)
                             {
-                                SeparadorOperatoria();
-                                Console.WriteLine("Ingrese los datos del auto");
-                                Console.Write("\t Marca: ");
-                                marca = Console.ReadLine();
-                                Console.Write("\t Modelo: ");
-                                modelo = Console.ReadLine();
-                                Console.Write("\t Cv: ");
-                                cv = (int.Parse(Console.ReadLine()));
-                                garage.AceptarAuto(cFachada.CrearAuto(marca, modelo, cv));
                                 Console.WriteLine("Auto ingresado correctamente");
-                                Console.ReadKey();
-                                Console.WriteLine();
                             }
                             else
                             {
                                 Console.WriteLine("Ya esta trabajando con un auto. Finalice el anterior para continuar");
-                                Console.ReadKey();
-                                Console.WriteLine();
                             }
+                            Console.ReadKey();
+                            Console.WriteLine();
                             break;
                         }
                     case 2:
                         {
-                            if (garage.NoHayAuto())
+                            if (!ocupado)
                             {
                                 Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
                                 Console.ReadKey();
@@ -102,7 +101,7 @@ namespace EJ03
                                 precio = (double.Parse(Console.ReadLine()));
                                 Console.Write("\t Descripcion: ");
                                 descripcion = Console.ReadLine();
-                                cFachada.AgregarAveria(garage,precio,descripcion);
+                                cFachada.AgregarAveria(precio,descripcion);
                                 Console.WriteLine("Averia ingresada correctamente");
                                 Console.ReadKey();
                                 Console.WriteLine();
@@ -111,7 +110,7 @@ namespace EJ03
                         }
                     case 3:
                         {
-                           if (garage.NoHayAuto())
+                           if (!ocupado)
                             {
                                 Console.WriteLine("No hay ningun auto en el garage. Ingrese uno");
                                 Console.ReadKey();
@@ -120,12 +119,13 @@ namespace EJ03
                            else
                            {
                                SeparadorOperatoria();
-                               auto = cFachada.MostrarAuto(garage);
+                               auto = cFachada.MostrarAuto();
                                Console.WriteLine("Marca: {0}",auto.Marca);
                                Console.WriteLine("Modelo: {0}",auto.Modelo);
                                Console.WriteLine("Litros de aceite: {0}",auto.Motor.LitrosAceite);
                                Console.WriteLine("Cv: {0}",auto.Motor.CV);
                                Console.WriteLine("Total reparacion: ${0}", auto.PrecioAverias);
+                               ocupado = false;
                                garage.QuitarAuto(auto);
                                Console.ReadKey();
                                Console.WriteLine();

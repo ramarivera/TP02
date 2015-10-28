@@ -43,8 +43,8 @@ namespace EJ01
 		/// <param name="pRadio">Radio del circulo</param>
 		public Circulo(Punto pCentro, double pRadio)
 		{
-			Centro = pCentro;
-			Radio = pRadio;
+			this.Centro = pCentro;
+			this.Radio = pRadio;
 		}
 		/// <summary>
 		/// Constructor de la clase
@@ -59,7 +59,7 @@ namespace EJ01
 		/// </summary>
 		public double Area
 		{
-			get { return Math.PI * Math.Pow(Radio, 2); }
+			get { return Math.PI * Math.Pow(this.Radio, 2); }
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace EJ01
 		/// </summary>
 		public double Perimetro
 		{
-			get { return Math.PI * 2 * Radio; }
+			get { return Math.PI * 2 * this.Radio; }
 		} 
 	}
 }
