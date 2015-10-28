@@ -25,16 +25,16 @@ namespace EJ02
         private string iSimbolo;
 
         /// <summary>
-        /// Constructor de la clase
+        /// Inicializa una nueva instancia de la clase <see cref="Moneda"/>, tomando como parametros el Codigo ISO, el simbolo y el nombre de la misma
         /// </summary>
         /// <param name="pCodigoISO">Codigo ISO de la moneda</param>
         /// <param name="pNombre">Nombre de la moneda</param>
         /// <param name="pSimbolo">Simbolo de la moneda</param>
         public Moneda(string pCodigoISO, string pNombre, string pSimbolo)
         {
-            this.iCodigoISO = pCodigoISO;
-            this.iNombre = pNombre;
-            this.iSimbolo = pSimbolo;
+            this.CodigoISO = pCodigoISO;
+            this.Nombre = pNombre;
+            this.Simbolo = pSimbolo;
         }
 
         /// <summary>

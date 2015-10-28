@@ -13,7 +13,7 @@ namespace EJ02
     {
 
 		/// <summary>
-		/// Miembro estatico Facade, utilizado para abstraer implementaciones de las clases particulares al ejercicio
+		/// Miembro estatico <see cref="Facade"/>, utilizado para abstraer implementaciones de las clases particulares al ejercicio
 		/// </summary>
 		static Facade cFachada;
 		/// <summary>
@@ -39,6 +39,11 @@ namespace EJ02
 		{
 			Console.WriteLine("\n-------------------Operando------------------\n");
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pCuenta"></param>
 		static void Operatoria (Cuenta pCuenta)
 		{
 			bool seguir = true;
