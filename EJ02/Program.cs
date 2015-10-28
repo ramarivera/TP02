@@ -40,11 +40,7 @@ namespace EJ02
 			Console.WriteLine("\n-------------------Operando------------------\n");
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pCuenta"></param>
-		static void Operatoria (Cuenta pCuenta)
+		static void Operatoria (String pCodigoCuenta)
 		{
 			bool seguir = true;
 			double aux = 0;
@@ -60,20 +56,22 @@ namespace EJ02
 				switch (int.Parse(Console.ReadLine()))
 				{
 					case 1:
-						Console.Write("El saldo de la cuenta es de {0}", cFachada.RecuperarSaldo(pCuenta));
+                        Cuenta lCuenta = cFachada.GetCuenta(pCodigoCuenta);
+						Console.Write("El saldo de la cuenta es de {0} {1}", lCuenta.Moneda,lCuenta.Saldo);
 						Console.ReadKey();
 						Console.WriteLine();
 						break;
 					case 2:
 						Console.Write("Ingrese el saldo a Acreditar: ");
-						aux = int.Parse(Console.ReadLine());
-						cFachada.AcreditarSaldo(pCuenta, aux);
-						Console.WriteLine();
+						aux = double.Parse(Console.ReadLine());
+                        Console.Write(cFachada.AcreditarSaldo(pCodigoCuenta, aux) ? "La operacion se realizo correctamente" : "La operacion no pudo realizarse");
+                        Console.ReadKey();
+                        Console.WriteLine();
 						break;
 					case 3:
 						Console.Write("Ingrese el saldo a Debitar: ");
-						aux = int.Parse(Console.ReadLine());
-						Console.Write(cFachada.DebitarSaldo(pCuenta, aux) ? "La operacion se realizo correctamente" : "La operacion no pudo realizarse");
+						aux = double.Parse(Console.ReadLine());
+						Console.Write(cFachada.DebitarSaldo(pCodigoCuenta, aux) ? "La operacion se realizo correctamente" : "La operacion no pudo realizarse");
 						Console.ReadKey();
 						Console.WriteLine();
 						break;
@@ -91,9 +89,7 @@ namespace EJ02
 		
 		static void Main(string[] args)
 		{
-			
 			cFachada = new Facade();
-			Cuentas cuentas = cFachada.CrearCuentas();
 			bool seguir = true;
 			while (seguir)
 			{
@@ -106,10 +102,10 @@ namespace EJ02
 				switch (int.Parse(Console.ReadLine()))
 				{
 					case 1:
-						Operatoria(cuentas.CuentaEnDolares);
+						Operatoria("USD");
 						break;
 					case 2:
-						Operatoria(cuentas.CuentaEnPesos);
+						Operatoria("ARS");
 						break;
 					case 0:
 						seguir = false;

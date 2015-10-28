@@ -11,46 +11,52 @@ namespace EJ02
     /// </summary>
 	class Facade
 	{
-        /// <summary>
-        /// Permite obtener una nueva instancia de la clase Cuentas
-        /// </summary>
-        /// <returns>Devuelve una nueva instancia de Cuentas</returns>
-		public Cuentas CrearCuentas()
-		{
-			return new Cuentas();
-		}
+        private Cuentas iCuentas;
+
+        public Facade()
+        {
+            this.iCuentas = new Cuentas();
+        }
 
         /// <summary>
-        /// Permite acreditar dinero a una cuenta
+        /// Permite acreditar dinero a una <see cref="Cuenta"/>
         /// </summary>
-        /// <param name="pCuenta">Cuenta en la que se acreditara el dinero</param>
+        /// <param name="pCodigoCuenta">Codigo de la <see cref="Cuenta"/> en la que se acreditara el dinero</param>
         /// <param name="pSaldo">Monto a acreditar en la cuenta</param>
-		public void AcreditarSaldo (Cuenta pCuenta, double pSaldo)
-		{
-			pCuenta.AcreditarSaldo(pSaldo);
+        /// <returns>Devuelve un booleano que indica si se pudo acreditar el saldo o no</returns>
+		public bool AcreditarSaldo(string pCodigoCuenta, double pSaldo)
+        {
+            bool lResultado = false;
+            Cuenta lCuenta = this.GetCuenta(pCodigoCuenta);
+            
+            if (lCuenta != null)
+            {
+                lCuenta.AcreditarSaldo(pSaldo);
+                lResultado = true;
+            }
+
+            return lResultado;
 		}
 
         /// <summary>
-        /// Permite debitar dinero de una cuenta
+        /// Permite debitar dinero de una <see cref="Cuenta"/>
         /// </summary>
-        /// <param name="pCuenta">Cuenta en la que se acreditara el dinero</param>
-        /// <param name="pSaldo">Monto a decinar de la cuenta</param>
+        /// <param name="pCuenta">Codigo de la <see cref="Cuenta"/> en la que se acreditara el dinero</param>
+        /// <param name="pSaldo">Monto a debitar de la cuenta</param>
         /// <returns>Devuelve un booleano que indica si se pudo debitar el saldo o no</returns>
-		public bool DebitarSaldo (Cuenta pCuenta, double pSaldo)
+		public bool DebitarSaldo (string pCodigoCuenta, double pSaldo)
 		{
-			return pCuenta.DebitarSaldo(pSaldo);
-		}
+            bool lResultado = false;
+            Cuenta lCuenta = this.GetCuenta(pCodigoCuenta);
 
-        /// <summary>
-        /// Permite obtener el simbolo de la moneda de una cuenta
-        /// </summary>
-        /// <param name="pCuenta">Cuenta de la que se quiere conocer el simbolo</param>
-        /// <returns>Devuelve el simbolo de la moneda de la cuenta</returns>
-		string RecuperarSimbolo (Cuenta pCuenta)
-		{
-			return pCuenta.Moneda.Simbolo;
-		}
+            if (lCuenta != null)
+            {
+                lResultado = lCuenta.DebitarSaldo(pSaldo); ;
+            }
 
+            return lResultado;
+		}
+        /*
         /// <summary>
         /// Permite obtener el saldo de una cuenta
         /// </summary>
@@ -60,5 +66,23 @@ namespace EJ02
 		{
 			return this.RecuperarSimbolo(pCuenta) + " " + pCuenta.Saldo.ToString() ;
 		}
+        */
+        public Cuenta GetCuenta(String pCodigo)
+        {
+            Cuenta lCuenta;
+            switch (pCodigo)
+            {
+                case "ARS":
+                    lCuenta = iCuentas.CuentaEnPesos;
+                    break;
+                case "USD":
+                    lCuenta = iCuentas.CuentaEnDolares;
+                    break;
+                default:
+                    lCuenta = null;
+                    break;
+            }
+            return lCuenta;
+        }
 	}
 }
