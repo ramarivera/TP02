@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EJ02
 {
     /// <summary>
-    /// Representa en par de cuentas, una en pesos y otra en dolares
+    /// Representa en par de <see cref="Cuenta"/>, una en pesos y otra en dolares
     /// </summary>
 	class Cuentas
 	{
@@ -39,14 +39,14 @@ namespace EJ02
 		}
 
         /// <summary>
-        /// Constructor de la clase
+        /// Inicializa una nueva instancia de la clase <see cref="Cuentas"/>
         /// </summary>
 		public Cuentas()
 		{
-			Moneda dolar = new Moneda("USD", "Dolar", "U$S");
-			Moneda peso = new Moneda("ARS", "Peso Argentino", "$");
-			CuentaEnDolares = new Cuenta(dolar);
-			CuentaEnPesos = new Cuenta(peso);
+			Moneda lDolar = new Moneda("USD", "Dolar", "U$S");
+			Moneda lPeso = new Moneda("ARS", "Peso Argentino", "$");
+            this.CuentaEnDolares = new Cuenta(lDolar);
+            this.CuentaEnPesos = new Cuenta(lPeso);
 		}
 	}
 }
