@@ -41,7 +41,9 @@ namespace EJ01
 
 		static void Main(string[] args)
         {
-            double x, y;
+            double lX, lY;
+            double[] lCoordX = new Double[3];
+            double[] lCoordY = new Double[3];
             cFachada = new Facade();
             bool seguir = true;
             while (seguir)
@@ -58,28 +60,24 @@ namespace EJ01
 						SeparadorOperatoria();
                         Console.WriteLine("Ingrese las coordenadas del primer punto");
                         Console.Write("\t Coordenada en X: ");
-                        x = double.Parse(Console.ReadLine());
+                        lCoordX[0] = double.Parse(Console.ReadLine());
                         Console.Write("\t Coordenada en Y: ");
-                        y = double.Parse(Console.ReadLine());
-                        Punto punto1 = cFachada.CrearPunto(x, y);
+                        lCoordY[0] = double.Parse(Console.ReadLine());
 
                         Console.WriteLine("Ingrese las coordenadas del segundo punto");
                         Console.Write("\t Coordenada en X: ");
-                        x = double.Parse(Console.ReadLine());
+                        lCoordX[1] = double.Parse(Console.ReadLine());
                         Console.Write("\t Coordenada en Y: ");
-                        y = double.Parse(Console.ReadLine());
-                        Punto punto2 = cFachada.CrearPunto(x, y);
-
+                        lCoordY[1] = double.Parse(Console.ReadLine());
+                       
                         Console.WriteLine("Ingrese las coordenadas del tercer punto");
                         Console.Write("\t Coordenada en X: ");
-                        x = double.Parse(Console.ReadLine());
+                        lCoordX[2] = double.Parse(Console.ReadLine());
                         Console.Write("\t Coordenada en Y: ");
-                        y = double.Parse(Console.ReadLine());
-                        Punto punto3 = cFachada.CrearPunto(x, y);
-
-                        Triangulo triangulo = cFachada.CrearTriangulo(punto1, punto2, punto3);
-                        Console.WriteLine("El perimetro del triangulo es {0}", cFachada.CalcularPerimetroTriangulo(triangulo));
-                        Console.Write("El area del triangulo es {0}", cFachada.CalcularAreaTriangulo(triangulo));
+                        lCoordY[2] = double.Parse(Console.ReadLine());
+                                             
+                        Console.WriteLine("El perimetro del triangulo es {0}", cFachada.CalcularPerimetroTriangulo(lCoordX,lCoordY));
+                        Console.Write("El area del triangulo es {0}", cFachada.CalcularAreaTriangulo(lCoordX, lCoordY));
 						Console.ReadKey();
 						Console.WriteLine();
 						break;
@@ -87,15 +85,16 @@ namespace EJ01
 						SeparadorOperatoria();
 						Console.WriteLine("Ingrese las coordenadas del centro");
                         Console.Write("\t Coordenada en X: ");
-                        x = double.Parse(Console.ReadLine());
+                        lX = double.Parse(Console.ReadLine());
                         Console.Write("\t Coordenada en Y: ");
-                        y = double.Parse(Console.ReadLine());
-                        Punto centro = cFachada.CrearPunto(x, y);
+                        lY = double.Parse(Console.ReadLine());
+
+                        
                         Console.Write("Ingrese el radio: ");
-                        double radio = double.Parse(Console.ReadLine());
-                        Circulo circulo = cFachada.CrearCirculo(centro, radio);
-                        Console.WriteLine("El perimetro del circulo es {0}", cFachada.CalcularPerimetroCirculo(circulo));
-                        Console.Write("El area del circulo es {0}", cFachada.CalcularAreaCirculo(circulo));
+                        double lRadio = double.Parse(Console.ReadLine());
+                        
+                        Console.WriteLine("El perimetro del circulo es {0}", cFachada.CalcularPerimetroCirculo(lX, lY, lRadio));
+                        Console.Write("El area del circulo es {0}", cFachada.CalcularAreaCirculo(lX, lY, lRadio));
 						Console.ReadKey();
 						Console.WriteLine();
 						break;
