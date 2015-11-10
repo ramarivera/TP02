@@ -11,7 +11,7 @@ namespace EJ06
 	/// Su valor minimo es 01/01/1582 y su valor maximo es 31/12/2582.
 	/// Implementa operadores relacionales y aritmetica de Fechas (Resta, suma)
 	/// </summary>
-	class Fecha
+	public class Fecha
 	{
 		#region Fecha - Atributos 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace EJ06
 		}
 
 		/// <summary>
-		/// Pripiedad NombreMesActual, nos permite conocer el nombre del mes de la instancia
+		/// Propiedad NombreMesActual, nos permite conocer el nombre del mes de la instancia
 		/// </summary>
 		public String NombreMesActual
 		{
