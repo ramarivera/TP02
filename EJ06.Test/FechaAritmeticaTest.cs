@@ -9,58 +9,69 @@ namespace EJ06.Test
     {
 
         [TestMethod]
-        public void AgregarDias_Test()
+        public void AgregarDias_AreEqualTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-            long diasJulianos = Fecha.ToJuliano(fecha.Dia, fecha.Mes, fecha.Año);
-            Fecha fechaNueva = new Fecha(18, 6, 2015);
+            Fecha fechaEsperada = new Fecha(18, 6, 2015);
 
-            Assert.AreEqual(fechaNueva, fecha.AgregarDias(10));
+            Fecha fechaResultante = fecha.AgregarDias(10);
+
+            Assert.AreEqual(fechaEsperada, fechaResultante);
         }
 
         [TestMethod]
-        public void AgregarDiasPasandoAOtroMes_Test()
+        public void AgregarDias_PasandoAOtroMes_AreEqualTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-            Fecha fechaNueva = new Fecha(8, 7, 2015);
+            Fecha fechaEsperada = new Fecha(8, 7, 2015);
 
-            Assert.AreEqual(fechaNueva, fecha.AgregarDias(30));
+            Fecha fechaResultante = fecha.AgregarDias(30);
+
+            Assert.AreEqual(fechaEsperada, fechaResultante);
         }
 
         [TestMethod]
-        public void AgregarMeses_Test()
+        public void AgregarMeses_AreEqualTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-            Fecha fechaNueva = new Fecha(8, 9, 2015);
+            Fecha fechaEsperada = new Fecha(8, 9, 2015);
 
-            Assert.AreEqual(fechaNueva, fecha.AgregarMeses(3));
+            Fecha fechaResultante = fecha.AgregarMeses(3);
+
+            Assert.AreEqual(fechaEsperada, fechaResultante);
         }
 
         [TestMethod]
-        public void AgregarMesesPasandoAOtroAño_Test()
+        public void AgregarMeses_PasandoAOtroAño_AreaEqualTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-            Fecha fechaNueva = new Fecha(8, 6, 2016);
+            Fecha fechaEsperada = new Fecha(8, 6, 2016);
 
-            Assert.AreEqual(fechaNueva, fecha.AgregarMeses(12));
+            Fecha fechaResultante = fecha.AgregarMeses(12);
+
+            Assert.AreEqual(fechaEsperada, fechaResultante);
         }
 
         [TestMethod]
-        public void AgregarAños_Test()
+        public void AgregarAños_AreEqualTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-            Fecha fechaNueva = new Fecha(8, 6, 2017);
+            Fecha fechaEsperada = new Fecha(8, 6, 2017);
 
-            Assert.AreEqual(fechaNueva, fecha.AgregarAño(2));
+            Fecha fechaResultante = fecha.AgregarAño(2);
+
+            Assert.AreEqual(fechaEsperada, fechaResultante);
         }
 
         [TestMethod]
-        public void RestarFechas_Test()
+        public void RestarFechas_AreEqualTest()
         {
             Fecha fecha1 = new Fecha(8, 6, 2015);
             Fecha fecha2 = new Fecha(8, 3, 2015);
 
-            Assert.AreEqual(92,fecha1.RestarFecha(fecha2));
+            int diferencia = fecha1.RestarFecha(fecha2);
+
+            Assert.AreEqual(92,diferencia);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace EJ06.Test
     public class FechaMetodosEstaticosTest
     {
         [TestMethod]
-        public void AñoBisiesto_Test()
+        public void EsBisiesto_IsTrueTest()
         {
             Fecha fecha = new Fecha(8, 6, 2012);
 
@@ -16,35 +16,43 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void CantidadDiasMesAñoNormal_Test()
+        public void DiasDelMesAño_MesJunioTest()
         {
             Fecha fecha = new Fecha(8, 6, 2012);
 
-            Assert.AreEqual(30, Fecha.DiasDelMesAño(fecha.Mes, fecha.Año));
+            int dias = Fecha.DiasDelMesAño(fecha.Mes, fecha.Año);
+
+            Assert.AreEqual(30, dias);
         }
 
         [TestMethod]
-        public void CantidadDiasMesAñoBisiesto_Test()
+        public void DiasDelMesAño_FebreroBisiestoTest()
         {
             Fecha fecha = new Fecha(8, 2, 2012);
 
-            Assert.AreEqual(29, Fecha.DiasDelMesAño(fecha.Mes, fecha.Año));
+            int dias = Fecha.DiasDelMesAño(fecha.Mes, fecha.Año);
+
+            Assert.AreEqual(29, dias);
         }
 
         [TestMethod]
-        public void NombreDiaSemana_Test()
+        public void DiaSemanaFecha_LunesTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
 
-            Assert.AreEqual("Lunes", Fecha.DiaSemanaFecha(fecha.Dia,fecha.Mes,fecha.Año));
+            string nombre = Fecha.DiaSemanaFecha(fecha.Dia, fecha.Mes, fecha.Año);
+
+            Assert.AreEqual("Lunes", nombre);
         }
 
         [TestMethod]
-        public void NombreMes_Test()
+        public void NombreMes_JunioTest()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
-           
-            Assert.AreEqual("Junio", Fecha.NombreMes(fecha.Mes));
+
+            string nombre = Fecha.NombreMes(fecha.Mes);
+
+            Assert.AreEqual("Junio", nombre);
         }
 
         [TestMethod]
@@ -52,7 +60,9 @@ namespace EJ06.Test
         {
             Fecha fecha = new Fecha(8, 6, 2015);
 
-            Assert.AreEqual(2457182, Fecha.ToJuliano(fecha.Dia,fecha.Mes,fecha.Año));
+            long fechaJuliana = Fecha.ToJuliano(fecha.Dia, fecha.Mes, fecha.Año);
+
+            Assert.AreEqual(2457182, fechaJuliana);
         }
 
         [TestMethod]

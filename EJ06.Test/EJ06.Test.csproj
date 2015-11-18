@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FechaAritmeticaTest.cs" />
     <Compile Include="FechaComparacionTest.cs" />
+    <Compile Include="FechaExceptionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EJ06\EJ06.csproj">
