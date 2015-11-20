@@ -10,7 +10,7 @@ namespace EJ02
 	/// Clase Solucion del Ejercicio 02 del Trabajo Practico 02
 	/// </summary>
 	class Program
-    {
+	{
 
 		/// <summary>
 		/// Miembro estatico <see cref="Facade"/>, utilizado para abstraer implementaciones de las clases particulares al ejercicio
@@ -47,7 +47,7 @@ namespace EJ02
 			while (seguir)
 			{
 				SeparadorOperatoria();
-                Console.WriteLine("¿Que operacion desea realizar?");
+				Console.WriteLine("¿Que operacion desea realizar?");
 				Console.WriteLine("1:\t Mostrar Saldo");
 				Console.WriteLine("2:\t Acreditar Saldo");
 				Console.WriteLine("3:\t Debitar Saldo");
@@ -56,7 +56,7 @@ namespace EJ02
 				switch (int.Parse(Console.ReadLine()))
 				{
 					case 1:
-                        Cuenta lCuenta = cFachada.GetCuenta(pCodigoCuenta);
+						Cuenta lCuenta = cFachada.GetCuenta(pCodigoCuenta);
 						Console.Write("El saldo de la cuenta es de {0} {1}", lCuenta.Moneda,lCuenta.Saldo);
 						Console.ReadKey();
 						Console.WriteLine();
@@ -64,9 +64,9 @@ namespace EJ02
 					case 2:
 						Console.Write("Ingrese el saldo a Acreditar: ");
 						aux = double.Parse(Console.ReadLine());
-                        Console.Write(cFachada.AcreditarSaldo(pCodigoCuenta, aux) ? "La operacion se realizo correctamente" : "La operacion no pudo realizarse");
-                        Console.ReadKey();
-                        Console.WriteLine();
+						Console.Write(cFachada.AcreditarSaldo(pCodigoCuenta, aux) ? "La operacion se realizo correctamente" : "La operacion no pudo realizarse");
+						Console.ReadKey();
+						Console.WriteLine();
 						break;
 					case 3:
 						Console.Write("Ingrese el saldo a Debitar: ");
@@ -118,7 +118,7 @@ namespace EJ02
 				}
 			}
 			GoodBye();
-        }
+		}
 	}
 }
 
