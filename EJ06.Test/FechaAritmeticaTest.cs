@@ -9,7 +9,7 @@ namespace EJ06.Test
     {
 
         [TestMethod]
-        public void AgregarDias_AreEqualTest()
+        public void AgregarDias_AreEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
             Fecha fechaEsperada = new Fecha(18, 6, 2015);
@@ -20,7 +20,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void AgregarDias_PasandoAOtroMes_AreEqualTest()
+        public void AgregarDias_PasandoAOtroMes_AreEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
             Fecha fechaEsperada = new Fecha(8, 7, 2015);
@@ -31,7 +31,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void AgregarMeses_AreEqualTest()
+        public void AgregarMeses_AreEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
             Fecha fechaEsperada = new Fecha(8, 9, 2015);
@@ -42,7 +42,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void AgregarMeses_PasandoAOtroAño_AreaEqualTest()
+        public void AgregarMeses_PasandoAOtroAño_AreaEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
             Fecha fechaEsperada = new Fecha(8, 6, 2016);
@@ -53,7 +53,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void AgregarAños_AreEqualTest()
+        public void AgregarAños_AreEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
             Fecha fechaEsperada = new Fecha(8, 6, 2017);
@@ -64,7 +64,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void RestarFechas_AreEqualTest()
+        public void RestarFechas_AreEqual()
         {
             Fecha fecha1 = new Fecha(8, 6, 2015);
             Fecha fecha2 = new Fecha(8, 3, 2015);

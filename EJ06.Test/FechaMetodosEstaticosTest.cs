@@ -8,7 +8,7 @@ namespace EJ06.Test
     public class FechaMetodosEstaticosTest
     {
         [TestMethod]
-        public void EsBisiesto_IsTrueTest()
+        public void EsBisiesto_IsTrue()
         {
             Fecha fecha = new Fecha(8, 6, 2012);
 
@@ -16,7 +16,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void DiasDelMesAño_MesJunioTest()
+        public void DiasDelMesAño_MesJunio()
         {
             Fecha fecha = new Fecha(8, 6, 2012);
 
@@ -26,7 +26,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void DiasDelMesAño_FebreroBisiestoTest()
+        public void DiasDelMesAño_FebreroBisiesto()
         {
             Fecha fecha = new Fecha(8, 2, 2012);
 
@@ -36,7 +36,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void DiaSemanaFecha_LunesTest()
+        public void DiaSemanaFecha_Lunes()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
 
@@ -46,7 +46,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void NombreMes_JunioTest()
+        public void NombreMes_Junio()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
 
@@ -56,7 +56,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void ToJuliano_Test()
+        public void ToJuliano_AreEqual()
         {
             Fecha fecha = new Fecha(8, 6, 2015);
 
@@ -66,7 +66,7 @@ namespace EJ06.Test
         }
 
         [TestMethod]
-        public void ToGregoriano_Test()
+        public void ToGregoriano_AreEqual()
         {
             long diasJuliano = 2457182;
 
